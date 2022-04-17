@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup, Dropdown, DropdownButton } from "react-bootstrap";
 import React from "react";
 
 export default class ControlPanel extends React.Component {
@@ -7,34 +7,59 @@ export default class ControlPanel extends React.Component {
     super(props);
 
     this.state = {
-      clickedId: -1,
+      selectedDataSourceId: -1,
+      selectedMonitor: "Select an air pollution Ward or Monitor",
+      wardsAndMonitors: [],
     };
   }
 
-  async getWards() {}
+  async getWardsAndMonitors() {
+    // retrieving data
+    const url = "http://localhost:5600/API/wardsAndMonitors";
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: null,
+    };
+    const response = await fetch(url, requestOptions);
+
+    //processing retrieved data
+    const wardsAndMonitors = await response.json();
+    console.log(" * * * * WARDS AND MONITORS * * * * ", wardsAndMonitors);
+
+    this.setState({
+      wardsAndMonitors: wardsAndMonitors.data,
+    });
+  }
 
   componentDidMount() {
-    this.getWards();
+    // this.getWardsAndMonitors();
   }
 
   setSelectedMode = (e, i) => {
     this.props.setSelectedMode(e);
+    this.setState({
+      selectedDataSourceId: i,
+      selectedMonitor: "Select an air pollution Ward or Monitor",
+    });
+  };
 
-    // console.log("Active Button is", e.target.value, i);
-    this.setState({ clickedId: i });
+  setSelectedWardOrMonitor = (e) => {
+    this.setState({ selectedMonitor: e.target.innerText });
   };
 
   render() {
-    const button_names = ["IUDX", "WARDS", "SAFAR"];
-
+    const dataSources = ["IUDX", "WARD", "SAFAR", "MPCB"];
     const buttons = (
       <>
-        {button_names.map((buttonLabel, i) => (
+        {dataSources.map((buttonLabel, i) => (
           <Button
             key={i}
             value={buttonLabel}
             onClick={(event) => this.setSelectedMode(event, i)}
-            active={i === this.state.clickedId ? true : false}
+            active={i === this.state.selectedDataSourceId ? true : false}
           >
             {buttonLabel}
           </Button>
@@ -42,9 +67,53 @@ export default class ControlPanel extends React.Component {
       </>
     );
 
+    // const x = this.state.wardsAndMonitors;
+
+    const x = [
+      { name: "WARD1", type: "WARD" },
+      { name: "WARD2", type: "WARD" },
+      { name: "WARD3", type: "WARD" },
+      { name: "SAFAR1", type: "SAFAR" },
+      { name: "IUDX1", type: "IUDX" },
+      { name: "MPCB1", type: "MPCB" },
+    ];
+
+    const dropDownItems = (
+      <>
+        {x.map((itemLabel, i) =>
+          // filtering the dropdown list on the basis of the dataSource toggle
+          itemLabel.type == dataSources[this.state.selectedDataSourceId] ? (
+            <Dropdown.Item
+              key={i}
+              value={itemLabel}
+              onClick={this.setSelectedWardOrMonitor}
+            >
+              {itemLabel.name}
+            </Dropdown.Item>
+          ) : null
+        )}
+      </>
+    );
+
     return (
       <div className="controlpanel">
-        <ButtonGroup size="sm">{buttons}</ButtonGroup>
+        <ButtonGroup size="sm" className="controlpanelitems">
+          {buttons}
+        </ButtonGroup>
+
+        {[DropdownButton].map((DropdownType, idx) => (
+          <DropdownType
+            as={ButtonGroup}
+            key={idx}
+            id={`dropdown-button-drop-${idx}`}
+            disabled={this.state.selectedDataSourceId != -1 ? false : true}
+            size="sm"
+            title={this.state.selectedMonitor}
+            style={{ marginRight: 5 }}
+          >
+            {dropDownItems}
+          </DropdownType>
+        ))}
       </div>
     );
   }

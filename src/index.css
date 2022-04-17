@@ -46,7 +46,31 @@ body {
   align-items: center;
   text-align: center;
   padding: 5px;
+  justify-content: flex-start;
   /* margin: 10px; */
+}
+
+.controlpanelitems {
+  margin-right: 5px;
+}
+
+.dropdown-menu {
+  width: max-content;
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.dropdown {
+  color: aqua;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .vizpanel {
