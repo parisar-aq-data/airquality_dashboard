@@ -1,13 +1,84 @@
+html {
+  height: 100%;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  height: 100%;
+}
+.parentdiv {
+  height: 95%;
+}
+#root {
+  height: 90%;
+}
+
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* NEW */
+
+.logo {
+  /* margin: 10px; */
+  height: 30px;
+  width: 80px;
+  /* line-height: 30px; */
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* margin: 10px; */
+  /* background-color: silver; */
+}
+
+.controlpanel {
+  background-color: wheat;
+  flex: 0.1;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  /* margin: 10px; */
+}
+
+.vizpanel {
+  background-color: pink;
+  flex: 2;
+  padding: 5px;
+
+  /* parent properties for viztools*/
+  /* height: 100%; */
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 5px;
+}
+
+.svgcontainer {
+  /* background-color: powderblue; */
+  /* border: solid 1px black; */
+  margin: 5px;
+  color: rgb(110, 106, 106);
+}
+
+.map-tool {
+  /* grid-column-start: 2;
+    grid-column-end: span col3-start;
+    grid-row-start: 1;
+    grid-row-end: span 2; */
+  border: solid 1px rgb(90, 169, 214);
+}
+
+.vizTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
