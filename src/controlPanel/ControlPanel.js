@@ -1,15 +1,27 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, ButtonGroup, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import React from "react";
+import Select from "react-select";
 
 export default class ControlPanel extends React.Component {
+  selectRef = null;
+
   constructor(props) {
     super(props);
 
     this.state = {
       selectedDataSourceId: -1,
       selectedMonitor: "Select an air pollution Ward or Monitor",
+      filteredMonitors: [],
       wardsAndMonitors: [],
+      // wardsAndMonitors: [
+      //   { label: "WARD1", value: "WARD1", type: "WARD" },
+      //   { label: "WARD2", value: "WARD2", type: "WARD" },
+      //   { label: "WARD3", value: "WARD3", type: "WARD" },
+      //   { label: "SAFAR1", value: "SAFAR1", type: "SAFAR" },
+      //   { label: "IUDX1", value: "IUDX1", type: "IUDX" },
+      //   { label: "MPCB1", value: "MPCB1", type: "MPCB" },
+      // ],
     };
   }
 
@@ -35,20 +47,31 @@ export default class ControlPanel extends React.Component {
   }
 
   componentDidMount() {
-    // this.getWardsAndMonitors();
+    this.getWardsAndMonitors();
   }
 
   setSelectedMode = (e, i) => {
     this.props.setSelectedMode(e);
+
+    /*
+    https://stackoverflow.com/questions/50412843/how-to-programmatically-clear-reset-react-select
+    Only if a selection in the monitor dropdown has been made, clear it when a new datasource is selected
+    because the options will repopulate 
+    */
+    if (this.selectRef.state.selectValue.length > 0)
+      this.selectRef.clearValue();
+
+    let filteredMonitors = this.state.wardsAndMonitors.filter(
+      (monitor) => monitor.type == e.target.value
+    );
+
     this.setState({
       selectedDataSourceId: i,
-      selectedMonitor: "Select an air pollution Ward or Monitor",
+      filteredMonitors: filteredMonitors,
     });
   };
 
-  setSelectedWardOrMonitor = (e) => {
-    this.setState({ selectedMonitor: e.target.innerText });
-  };
+  setSelectedWardOrMonitor = (e) => {};
 
   render() {
     const dataSources = ["IUDX", "WARD", "SAFAR", "MPCB"];
@@ -67,53 +90,20 @@ export default class ControlPanel extends React.Component {
       </>
     );
 
-    // const x = this.state.wardsAndMonitors;
-
-    const x = [
-      { name: "WARD1", type: "WARD" },
-      { name: "WARD2", type: "WARD" },
-      { name: "WARD3", type: "WARD" },
-      { name: "SAFAR1", type: "SAFAR" },
-      { name: "IUDX1", type: "IUDX" },
-      { name: "MPCB1", type: "MPCB" },
-    ];
-
-    const dropDownItems = (
-      <>
-        {x.map((itemLabel, i) =>
-          // filtering the dropdown list on the basis of the dataSource toggle
-          itemLabel.type == dataSources[this.state.selectedDataSourceId] ? (
-            <Dropdown.Item
-              key={i}
-              value={itemLabel}
-              onClick={this.setSelectedWardOrMonitor}
-            >
-              {itemLabel.name}
-            </Dropdown.Item>
-          ) : null
-        )}
-      </>
-    );
-
     return (
       <div className="controlpanel">
         <ButtonGroup size="sm" className="controlpanelitems">
           {buttons}
         </ButtonGroup>
 
-        {[DropdownButton].map((DropdownType, idx) => (
-          <DropdownType
-            as={ButtonGroup}
-            key={idx}
-            id={`dropdown-button-drop-${idx}`}
-            disabled={this.state.selectedDataSourceId != -1 ? false : true}
-            size="sm"
-            title={this.state.selectedMonitor}
-            style={{ marginRight: 5 }}
-          >
-            {dropDownItems}
-          </DropdownType>
-        ))}
+        <Select
+          ref={(ref) => {
+            this.selectRef = ref;
+          }}
+          className="basic-single controlpanelitems"
+          isDisabled={this.state.selectedDataSourceId != -1 ? false : true}
+          options={this.state.filteredMonitors}
+        />
       </div>
     );
   }
