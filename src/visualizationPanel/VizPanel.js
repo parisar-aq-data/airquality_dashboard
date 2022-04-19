@@ -205,11 +205,7 @@ export default class VizPanel extends React.Component {
 
     const ui = (
       <>
-        {this.props.selectedMode}
-        {/* <ReactMapTool shapes={this.state.wardPolygons.shapes}></ReactMapTool>
-        <SVGContainer>
-          <ScatterplotTool title={"Some Scatterplot title"}></ScatterplotTool>
-        </SVGContainer>
+        <div>{"This is a map of Pune."}</div>
 
         {this.state.loading ? (
           "Retrieving data . . ."
@@ -227,12 +223,14 @@ export default class VizPanel extends React.Component {
           </SVGContainer>
         )}
 
+        <ReactMapTool shapes={this.state.wardPolygons.shapes}></ReactMapTool>
+
         <SVGContainer>
           <LinechartTool
             title={"PM2.5 history for IUDX, SAFAR and Wards"}
             pollutantHistory={this.state.pollutantHistory}
           ></LinechartTool>
-        </SVGContainer> */}
+        </SVGContainer>
       </>
     );
 

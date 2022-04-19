@@ -10,8 +10,7 @@ export default class ControlPanel extends React.Component {
     super(props);
 
     this.state = {
-      selectedDataSourceId: -1,
-      selectedMonitor: "Select an air pollution Ward or Monitor",
+      selectedDataSourceId: 0,
       filteredMonitors: [],
       wardsAndMonitors: [],
       // wardsAndMonitors: [
@@ -44,10 +43,29 @@ export default class ControlPanel extends React.Component {
     this.setState({
       wardsAndMonitors: wardsAndMonitors.data,
     });
+
+    return wardsAndMonitors;
   }
 
   componentDidMount() {
-    this.getWardsAndMonitors();
+    const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
+
+    let wnm = this.getWardsAndMonitors();
+
+    wnm.then((value) => {
+      let filteredMonitors = this.filterWardsAndMonitors(
+        dataSources[this.state.selectedDataSourceId]
+      );
+      this.setState({
+        filteredMonitors: filteredMonitors,
+      });
+    });
+  }
+
+  filterWardsAndMonitors(toFilterBy) {
+    return this.state.wardsAndMonitors.filter(
+      (monitor) => monitor.type === toFilterBy
+    );
   }
 
   setSelectedMode = (e, i) => {
@@ -61,9 +79,7 @@ export default class ControlPanel extends React.Component {
     if (this.selectRef.state.selectValue.length > 0)
       this.selectRef.clearValue();
 
-    let filteredMonitors = this.state.wardsAndMonitors.filter(
-      (monitor) => monitor.type == e.target.value
-    );
+    let filteredMonitors = this.filterWardsAndMonitors(e.target.value);
 
     this.setState({
       selectedDataSourceId: i,
@@ -74,7 +90,7 @@ export default class ControlPanel extends React.Component {
   setSelectedWardOrMonitor = (e) => {};
 
   render() {
-    const dataSources = ["IUDX", "WARD", "SAFAR", "MPCB"];
+    const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
     const buttons = (
       <>
         {dataSources.map((buttonLabel, i) => (
@@ -101,7 +117,7 @@ export default class ControlPanel extends React.Component {
             this.selectRef = ref;
           }}
           className="basic-single controlpanelitems"
-          isDisabled={this.state.selectedDataSourceId != -1 ? false : true}
+          // isDisabled={this.state.selectedDataSourceId != -1 ? false : true}
           options={this.state.filteredMonitors}
         />
       </div>
