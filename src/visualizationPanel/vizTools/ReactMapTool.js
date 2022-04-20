@@ -1,10 +1,20 @@
-import { MapContainer, TileLayer, Polygon } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Polygon,
+  LayerGroup,
+  CircleMarker,
+  Popup,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 export default function ReactMapTool(props) {
   // const pune_ward_centroids = "/assets/pune_2017_wards_centroids.geojson";
   const polygons = [];
+  const iudxMarkers = [];
+  const safarMarkers = [];
 
+  /* WARD POLYGONS */
   if (props.shapes) {
     const features = props.shapes.features;
 
@@ -17,7 +27,7 @@ export default function ReactMapTool(props) {
     }
 
     function colorMapper(d) {
-      console.log("average_daily_pm25", d);
+      // console.log("average_daily_pm25", d);
       if (!d) return "#9c9c9c";
       // return d > 250
       //   ? "#994C01"
@@ -44,7 +54,7 @@ export default function ReactMapTool(props) {
     }
 
     features.forEach((feat, index) => {
-      console.log("feat", feat);
+      // console.log("feat", feat);
       polygons.push(
         <Polygon
           key={index}
@@ -59,13 +69,63 @@ export default function ReactMapTool(props) {
     });
   }
 
+  /* IUDX MONITORS */
+  if (props.monitors) {
+    //1. filter iudx monitors
+    const fillIudx = { color: "green", fillColor: "green" };
+    const fillSafar = { color: "red", fillColor: "red" };
+
+    const iudxMonitors = props.monitors.filter(
+      (monitor) => monitor.type == "iudx"
+    );
+    // console.log("IUDX", iudxMonitors);
+    iudxMonitors.forEach((mon, index) => {
+      iudxMarkers.push(
+        <CircleMarker
+          key={index}
+          center={[mon.lat, mon.lon]}
+          pathOptions={fillIudx}
+          radius={10}
+        >
+          <Popup>
+            IUDX Monitor <br />
+            {mon.name}
+          </Popup>
+        </CircleMarker>
+      );
+    });
+
+    //2. filter safar monitors
+    const safarMonitors = props.monitors.filter(
+      (monitor) => monitor.type == "safar"
+    );
+    // console.log("SAFAR", safarMonitors);
+    safarMonitors.forEach((mon, index) => {
+      safarMarkers.push(
+        <CircleMarker
+          key={index}
+          center={[mon.lat, mon.lon]}
+          pathOptions={fillSafar}
+          radius={10}
+        >
+          <Popup>
+            Safar Monitor <br /> {mon.name}
+          </Popup>
+        </CircleMarker>
+      );
+    });
+  }
+
   const oo = (
-    <MapContainer center={[18.502, 73.853]} zoom={11} scrollWheelZoom={false}>
+    <MapContainer center={[18.502, 73.853]} zoom={12} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {polygons}
+      <LayerGroup>{iudxMarkers}</LayerGroup>
+
+      <LayerGroup>{safarMarkers}</LayerGroup>
     </MapContainer>
   );
 

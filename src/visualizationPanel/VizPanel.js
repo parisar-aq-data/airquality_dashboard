@@ -196,7 +196,7 @@ export default class VizPanel extends React.Component {
     // HORIZONTAL BAR CHART TOOL
     // this.getWard_pm25Ranks();
     // MAPTOOL
-    // this.getWardPolygons();
+    this.getWardPolygons();
     //LINE CHART TOOL
     // this.getPollutantHistory(); //TODO paramterize pollutant
   }
@@ -224,7 +224,10 @@ export default class VizPanel extends React.Component {
           </SVGContainer>
         )}
 
-        <ReactMapTool shapes={this.state.wardPolygons.shapes}></ReactMapTool>
+        <ReactMapTool
+          shapes={this.state.wardPolygons.shapes}
+          monitors={this.state.wardPolygons.data}
+        ></ReactMapTool>
 
         <SVGContainer>
           <LinechartTool
