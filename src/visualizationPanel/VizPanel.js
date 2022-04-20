@@ -60,48 +60,49 @@ export default class VizPanel extends React.Component {
         //   monthly_average_pm25: "23.24",
         // },
       ],
+      // rankedWards: [],
       rankedWards: [
         {
           location_id: "s_shiv",
           name: "Shivajinagar",
           datasource: "SAFAR",
           Average_pm25: "92.40",
-          best_rank: 10,
+          best: 10,
         },
         {
           location_id: "s_bhos",
           name: "Bhosari",
           datasource: "SAFAR",
           Average_pm25: "83.26",
-          best_rank: 9,
+          best: 9,
         },
         {
           location_id: "s_niga",
           name: "Nigadi",
           datasource: "SAFAR",
           Average_pm25: "79.35",
-          best_rank: 8,
+          best: 8,
         },
         {
           location_id: "s_alan",
           name: "Alandi",
           datasource: "SAFAR",
           Average_pm25: "61.69",
-          best_rank: 3,
+          best: 3,
         },
         {
           location_id: "s_hada",
           name: "Hadapsar",
           datasource: "SAFAR",
           Average_pm25: "60.86",
-          best_rank: 2,
+          best: 2,
         },
         {
           location_id: "s_pash",
           name: "Pashan",
           datasource: "SAFAR",
           Average_pm25: "49.25",
-          best_rank: 1,
+          best: 1,
         },
       ],
     };
@@ -109,8 +110,8 @@ export default class VizPanel extends React.Component {
 
   // Get top 3 and bottom 3 ranks for pollutants
   async getWard_pm25Ranks() {
-    let today = new Date(); // TODO get this date from UI components
-    const payload = { date1: today.toUTCString() };
+    // let today = new Date(); // TODO get this date from UI components
+    const payload = { startDate: "2021-04-23", endDate: "2021-11-16" };
 
     // retrieving data
     const url = "http://localhost:5600/API/top10_pm25";
