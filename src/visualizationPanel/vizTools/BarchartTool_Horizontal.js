@@ -68,7 +68,7 @@ export default function BarchartToolHorizontal(props) {
           return x_scale(Number(d.Average_pm25));
         })
         .attr("fill", function (d) {
-          return d.best_rank < 4 ? "#9ad8f5" : "#eab07b";
+          return d.best < 4 ? "#9ad8f5" : "#eab07b";
         });
     }
   });
