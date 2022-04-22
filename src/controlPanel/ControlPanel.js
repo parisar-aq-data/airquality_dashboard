@@ -181,7 +181,12 @@ export default class ControlPanel extends React.Component {
               selected={this.props.endDate}
               onChange={(date) => this.setEndDate(date)}
             />
-            <Button variant="dark" size="sm" className="cp-section2items">
+            <Button
+              variant="dark"
+              size="sm"
+              className="cp-section2items"
+              onClick={this.props.updateDates}
+            >
               Update
             </Button>
           </div>
