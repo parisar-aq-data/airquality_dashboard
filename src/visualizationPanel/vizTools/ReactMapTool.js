@@ -5,6 +5,7 @@ import {
   LayerGroup,
   CircleMarker,
   Popup,
+  LayersControl,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -89,7 +90,9 @@ export default function ReactMapTool(props) {
         >
           <Popup>
             IUDX Monitor <br />
-            {mon.name}
+            {mon.name} <br />
+            {"PM 2.5 :  "}
+            {Number(parseFloat(mon.average_daily_pm25)).toFixed(2)}
           </Popup>
         </CircleMarker>
       );
@@ -109,7 +112,9 @@ export default function ReactMapTool(props) {
           radius={10}
         >
           <Popup>
-            Safar Monitor <br /> {mon.name}
+            Safar Monitor <br /> {mon.name} <br />
+            {"PM 2.5 :  "}
+            {Number(parseFloat(mon.average_daily_pm25)).toFixed(2)}
           </Popup>
         </CircleMarker>
       );
@@ -117,15 +122,26 @@ export default function ReactMapTool(props) {
   }
 
   const oo = (
-    <MapContainer center={[18.502, 73.853]} zoom={12} scrollWheelZoom={false}>
+    <MapContainer
+      className="map_tool"
+      center={[18.502, 73.853]}
+      zoom={12}
+      scrollWheelZoom={false}
+    >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {polygons}
-      <LayerGroup>{iudxMarkers}</LayerGroup>
 
-      <LayerGroup>{safarMarkers}</LayerGroup>
+      <LayersControl position="topright">
+        <LayerGroup>{polygons}</LayerGroup>
+        <LayersControl.Overlay checked={false} name="IUDX Monitors">
+          <LayerGroup>{iudxMarkers}</LayerGroup>
+        </LayersControl.Overlay>
+        <LayersControl.Overlay checked={true} name="Safar Monitors">
+          <LayerGroup>{safarMarkers}</LayerGroup>
+        </LayersControl.Overlay>
+      </LayersControl>
     </MapContainer>
   );
 

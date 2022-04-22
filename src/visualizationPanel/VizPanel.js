@@ -206,7 +206,11 @@ export default class VizPanel extends React.Component {
 
     const ui = (
       <>
-        <div>{"This is a map of Pune."}</div>
+        <div className="textTool">
+          {
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          }
+        </div>
 
         {this.state.loading ? (
           "Retrieving data . . ."
@@ -237,6 +241,40 @@ export default class VizPanel extends React.Component {
         </SVGContainer>
       </>
     );
+
+    // const ui = (
+    //   <>
+    //     <ReactMapTool
+    //       shapes={this.state.wardPolygons.shapes}
+    //       monitors={this.state.wardPolygons.data}
+    //     ></ReactMapTool>
+    //     <div className="vizpanel1">
+    //       <div className="textTool">
+    //         {
+    //           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    //         }
+    //       </div>
+    //     </div>
+
+    //     <div className="vizpanel2">
+    //       {this.state.loading ? (
+    //         "Retrieving data . . ."
+    //       ) : (
+    //         <SVGContainer>
+    //           <BarchartToolHorizontal
+    //             title={
+    //               "Top 3 Wards showing the lowest to highest levels of pm2.5 for " +
+    //               today.toDateString().slice(4, 7) +
+    //               " " +
+    //               today.toDateString().slice(11)
+    //             }
+    //             rankedWards={this.state.rankedWards}
+    //           ></BarchartToolHorizontal>
+    //         </SVGContainer>
+    //       )}
+    //     </div>
+    //   </>
+    // );
 
     return <div className="vizpanel">{ui}</div>;
   }
