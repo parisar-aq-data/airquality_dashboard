@@ -83,25 +83,36 @@ body {
   /* parent properties for viztools*/
   /* height: 100%; */
 
+  /*using grid*/
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* grid-template-rows: 1.25fr 1fr; */
-  grid-column-gap: 5px;
+  /* grid-column-gap: 5px; */
+  /* display: flex; */
 }
 
 .svgcontainer {
   /* background-color: powderblue; */
-  /* border: solid 1px black; */
+  /* border: solid 1px#D2D2CF; */
   margin: 5px;
   color: rgb(110, 106, 106);
 }
 
 .map_tool {
-  grid-column-start: 1;
-  /* grid-column-end: span col2-start; */
-  grid-row-start: 1;
-  grid-row-end: span 1;
-  border: solid 1px rgb(90, 169, 214);
+  margin: 5px;
+  /* border: solid 1px#D2D2CF; */
+  /* grid-column-start: 1; */
+  /* grid-column-end: span col2-end; */
+  /* grid-row-start: 1;
+  grid-row-end: span row2-end; */
+  /* border: solid 1px rgb(90, 169, 214); */
+}
+
+.textTool {
+  /* border: solid 1px#D2D2CF; */
+  /* background-color: burlywood; */
+  overflow-y: auto;
+  margin: 5px;
+  /* padding: 30px; */
 }
 
 .vizTitle {
