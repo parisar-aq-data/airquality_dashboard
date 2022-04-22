@@ -19,6 +19,7 @@ export default function BarchartToolHorizontal(props) {
 
   useEffect(() => {
     const svgEl = d3.select(svgRef.current);
+    svgEl.selectAll("*").remove();
     const h = svgHeight + 20;
 
     // Y
