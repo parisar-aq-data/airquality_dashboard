@@ -17,8 +17,6 @@ export default class ControlPanel extends React.Component {
     this.state = {
       selectedDataSourceId: 0,
       filteredMonitors: [],
-      startDate: new Date("2021-04-24"),
-      endDate: new Date(),
       // wardsAndMonitors: [],
       wardsAndMonitors: [
         { label: "WARD1", value: "WARD1", type: "WARD" },
@@ -63,19 +61,13 @@ export default class ControlPanel extends React.Component {
 
   /* * Setters */
 
-  setStartDate(date) {
-    console.log("Calendar stuff", date, date.toISOString().substring(0, 10));
-    this.setState({
-      startDate: date,
-    });
-  }
+  setStartDate = (date) => {
+    this.props.setStartDate(date);
+  };
 
-  setEndDate(date) {
-    console.log("Calendar stuff", date, date.toISOString().substring(0, 10));
-    this.setState({
-      endDate: date,
-    });
-  }
+  setEndDate = (date) => {
+    this.props.setEndDate(date);
+  };
 
   setSelectedMode = (e, i) => {
     this.props.setSelectedMode(e);
@@ -179,14 +171,14 @@ export default class ControlPanel extends React.Component {
             <DatePicker
               className="cp-section2items"
               dateFormat="yyyy/MM/dd"
-              selected={this.state.startDate}
+              selected={this.props.startDate}
               onChange={(date) => this.setStartDate(date)}
             />
             <label className="cp-section2items"> To : </label>
             <DatePicker
               className="cp-section2items"
               dateFormat="yyyy/MM/dd"
-              selected={this.state.endDate}
+              selected={this.props.endDate}
               onChange={(date) => this.setEndDate(date)}
             />
             <Button variant="dark" size="sm" className="cp-section2items">

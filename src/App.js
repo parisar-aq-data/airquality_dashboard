@@ -17,14 +17,32 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       selectedMode: "IUDX",
+      startDate: new Date("2021-04-24"),
+      endDate: new Date(),
     };
   }
 
+  /* * Setters */
+
+  setStartDate = (date) => {
+    // console.log("Calendar stuff", date, date.toISOString().substring(0, 10));
+    this.setState({
+      startDate: date,
+    });
+  };
+
+  setEndDate = (date) => {
+    // console.log("Calendar stuff", date, date.toISOString().substring(0, 10));
+    this.setState({
+      endDate: date,
+    });
+  };
+
   setSelectedMode = (e) => {
-    console.log(
-      "Calling handleselectedMode in App.js and Setting value to ",
-      e.target.value
-    );
+    // console.log(
+    //   "Calling handleselectedMode in App.js and Setting value to ",
+    //   e.target.value
+    // );
     this.setState({
       selectedMode: e.target.value,
     });
@@ -33,7 +51,13 @@ export default class App extends React.Component {
   render() {
     const content = (
       <>
-        <ControlPanel setSelectedMode={this.setSelectedMode} />
+        <ControlPanel
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          setSelectedMode={this.setSelectedMode}
+          setStartDate={this.setStartDate}
+          setEndDate={this.setEndDate}
+        />
         <VizPanel selectedMode={this.state.selectedMode} />
       </>
     );
