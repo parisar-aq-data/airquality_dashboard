@@ -77,7 +77,7 @@ export default function ReactMapTool(props) {
     const fillSafar = { color: "red", fillColor: "red" };
 
     const iudxMonitors = props.monitors.filter(
-      (monitor) => monitor.type == "iudx"
+      (monitor) => monitor.type === "iudx"
     );
     // console.log("IUDX", iudxMonitors);
     iudxMonitors.forEach((mon, index) => {
@@ -100,7 +100,7 @@ export default function ReactMapTool(props) {
 
     //2. filter safar monitors
     const safarMonitors = props.monitors.filter(
-      (monitor) => monitor.type == "safar"
+      (monitor) => monitor.type === "safar"
     );
     // console.log("SAFAR", safarMonitors);
     safarMonitors.forEach((mon, index) => {

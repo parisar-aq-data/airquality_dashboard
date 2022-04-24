@@ -167,16 +167,15 @@ export default class ControlPanel extends React.Component {
           </div>
 
           <div className="controlPanelSection2">
-            <label className="cp-section2items"> From : </label>
             <DatePicker
-              className="cp-section2items"
+              wrapperClassName="cp-section2items"
               dateFormat="yyyy/MM/dd"
               selected={this.props.startDate}
               onChange={(date) => this.setStartDate(date)}
             />
-            <label className="cp-section2items"> To : </label>
+            <label className="cp-section2items"> - </label>
             <DatePicker
-              className="cp-section2items"
+              wrapperClassName="cp-section2items"
               dateFormat="yyyy/MM/dd"
               selected={this.props.endDate}
               onChange={(date) => this.setEndDate(date)}
