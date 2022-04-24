@@ -16,7 +16,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedMode: "IUDX",
+      selectedMode: "WARD",
       startDate: new Date("2021-04-24"),
       endDate: new Date(),
       alert: {
@@ -43,29 +43,32 @@ export default class App extends React.Component {
   };
 
   setSelectedMode = (e) => {
-    // console.log(
-    //   "Calling handleselectedMode in App.js and Setting value to ",
-    //   e.target.value
-    // );
     this.setState({
       selectedMode: e.target.value,
     });
   };
 
-  updateDates = (e) => {
-    console.log("NEW DATES", this.state.startDate, this.state.endDate);
+  componentDidUpdate(prevProps, prevState) {
+    // TODO get this verified
+    // Fetching NEW data according to UPDATED SELECTED MODE
+    if (this.state.selectedMode != prevState.selectedMode) {
+      this.get_pm25Ranks();
+    }
+  }
 
-    console.log("GETTING UPDATING WARDS");
-    this.getWard_pm25Ranks();
+  updateDates = (e) => {
+    // Fetching NEW data according to UPDATED DATES
+    this.get_pm25Ranks();
   };
 
   // Get top 3 and bottom 3 ranks for pollutants
-  async getWard_pm25Ranks() {
+  async get_pm25Ranks() {
     let message = "";
 
     const payload = {
       startDate: this.state.startDate,
       endDate: this.state.endDate,
+      selectedMode: this.state.selectedMode,
     };
 
     // retrieving data
@@ -82,7 +85,9 @@ export default class App extends React.Component {
     //processing retrieved data
     const responseObject = await response.json();
     console.log(
-      " * * * * Ranked wards received from db * * * * ",
+      " * * * * Ranked " +
+        this.state.selectedMode +
+        " received from db * * * * ",
       responseObject
     );
 
@@ -111,7 +116,7 @@ export default class App extends React.Component {
    */
   componentDidMount() {
     // HORIZONTAL BAR CHART TOOL
-    this.getWard_pm25Ranks();
+    this.get_pm25Ranks();
     // MAPTOOL
     // this.getWardPolygons();
     //LINE CHART TOOL
