@@ -26,32 +26,10 @@ export default class App extends React.Component {
     };
   }
 
-  /* * Setters */
-
-  setStartDate = (date) => {
-    // console.log("Calendar stuff", date, date.toISOString().substring(0, 10));
-    this.setState({
-      startDate: date,
-    });
-  };
-
-  setEndDate = (date) => {
-    // console.log("Calendar stuff", date, date.toISOString().substring(0, 10));
-    this.setState({
-      endDate: date,
-    });
-  };
-
-  setSelectedMode = (e) => {
-    this.setState({
-      selectedMode: e.target.value,
-    });
-  };
-
   componentDidUpdate(prevProps, prevState) {
     // TODO get this verified
     // Fetching NEW data according to UPDATED SELECTED MODE
-    if (this.state.selectedMode != prevState.selectedMode) {
+    if (this.state.selectedMode !== prevState.selectedMode) {
       this.get_pm25Ranks();
     }
   }
@@ -91,12 +69,12 @@ export default class App extends React.Component {
       responseObject
     );
 
-    if (responseObject.status == "success") {
+    if (responseObject.status === "success") {
       this.setState({
         rankedWards: responseObject.data,
       });
     } else {
-      if (responseObject.message == "No data found in DB") {
+      if (responseObject.message === "No data found in DB") {
         message =
           "Sorry! We do not have the data for the selected date ranges. Please try changing them.";
       }
@@ -149,9 +127,11 @@ export default class App extends React.Component {
           updateDates={this.updateDates}
           startDate={this.state.startDate}
           endDate={this.state.endDate}
-          setSelectedMode={this.setSelectedMode}
-          setStartDate={this.setStartDate}
-          setEndDate={this.setEndDate}
+          setSelectedMode={(e) =>
+            this.setState({ selectedMode: e.target.value })
+          }
+          setStartDate={(date) => this.setState({ startDate: date })}
+          setEndDate={(date) => this.setState({ endDate: date })}
         />
         {!this.state.rankedWards ? (
           "Retrieving data . . ."
