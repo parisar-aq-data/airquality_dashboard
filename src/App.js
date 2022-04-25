@@ -17,6 +17,8 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       selectedMode: "WARD",
+      selectedWardOrMonitor: "",
+      panCityView: true,
       startDate: new Date("2021-04-24"),
       endDate: new Date(),
       alert: {
@@ -30,13 +32,13 @@ export default class App extends React.Component {
     // TODO get this verified
     // Fetching NEW data according to UPDATED SELECTED MODE
     if (this.state.selectedMode !== prevState.selectedMode) {
-      this.get_pm25Ranks();
+      // this.get_pm25Ranks();
     }
   }
 
   updateDates = (e) => {
     // Fetching NEW data according to UPDATED DATES
-    this.get_pm25Ranks();
+    // this.get_pm25Ranks();
   };
 
   // Get top 3 and bottom 3 ranks for pollutants
@@ -94,7 +96,7 @@ export default class App extends React.Component {
    */
   componentDidMount() {
     // HORIZONTAL BAR CHART TOOL
-    this.get_pm25Ranks();
+    // this.get_pm25Ranks();
     // MAPTOOL
     // this.getWardPolygons();
     //LINE CHART TOOL
@@ -107,6 +109,18 @@ export default class App extends React.Component {
         alertMessage: "",
         alertRaised: status,
       },
+    });
+  };
+
+  handlePanCityView = () => {
+    this.setState({
+      panCityView: !this.state.panCityView,
+    });
+  };
+
+  setSelectedWardOrMonitor = (e) => {
+    this.setState({
+      selectedWardOrMonitor: e.value,
     });
   };
 
@@ -124,12 +138,16 @@ export default class App extends React.Component {
           </Alert>
         ) : null}
         <ControlPanel
+          panCityView={this.state.panCityView}
           updateDates={this.updateDates}
           startDate={this.state.startDate}
           endDate={this.state.endDate}
+          selectedWardOrMonitor={this.state.selectedWardOrMonitor}
           setSelectedMode={(e) =>
             this.setState({ selectedMode: e.target.value })
           }
+          setSelectedWardOrMonitor={this.setSelectedWardOrMonitor}
+          handlePanCityView={this.handlePanCityView}
           setStartDate={(date) => this.setState({ startDate: date })}
           setEndDate={(date) => this.setState({ endDate: date })}
         />

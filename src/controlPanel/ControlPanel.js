@@ -88,7 +88,10 @@ export default class ControlPanel extends React.Component {
     });
   };
 
-  setSelectedWardOrMonitor = (e) => {};
+  setSelectedWardOrMonitor = (e) => {
+    this.props.handlePanCityView();
+    this.props.setSelectedWardOrMonitor(e);
+  };
 
   /* * * Lifecycle hooks */
   componentDidMount() {
@@ -142,18 +145,35 @@ export default class ControlPanel extends React.Component {
       <div>
         <div className="controlpanel">
           <div className="controlPanelSection1">
-            <ButtonGroup size="sm" className="cp-section1items">
-              {buttons}
-            </ButtonGroup>
-            <Select
-              ref={(ref) => {
-                this.unitSelectRef = ref;
-              }}
-              className="cp-section1items"
-              placeholder="Select a ward or monitor"
-              // isDisabled={this.state.selectedDataSourceId != -1 ? false : true}
-              options={this.state.filteredMonitors}
-            />
+            {this.props.panCityView ? (
+              <div className="panCityControl">
+                <ButtonGroup size="sm" className="cp-section1items">
+                  {buttons}
+                </ButtonGroup>
+                <Select
+                  ref={(ref) => {
+                    this.unitSelectRef = ref;
+                  }}
+                  className="cp-section1items"
+                  placeholder="Select a ward or monitor"
+                  options={this.state.filteredMonitors}
+                  onChange={this.setSelectedWardOrMonitor}
+                />
+              </div>
+            ) : (
+              <div className="panCityControl">
+                <Button variant="link" onClick={this.props.handlePanCityView}>
+                  PUNE
+                </Button>
+                <div className="breadcrumbs">
+                  {"Selected "}
+                  {this.state.selectedDataSourceId === 0
+                    ? "ward : "
+                    : "monitor : "}
+                  {this.props.selectedWardOrMonitor}
+                </div>
+              </div>
+            )}
 
             <Select
               ref={(ref) => {
@@ -161,8 +181,6 @@ export default class ControlPanel extends React.Component {
               }}
               className="cp-section1items"
               placeholder="Select a pollutant"
-              // isDisabled={this.state.selectedDataSourceId != -1 ? false : true}
-              // options={this.state.filteredMonitors}
             />
           </div>
 
