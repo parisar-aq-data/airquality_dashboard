@@ -5,6 +5,7 @@ import ScatterplotTool from "./vizTools/ScatterplotTool.js";
 import ReactMapTool from "./vizTools/ReactMapTool.js";
 import BarchartToolHorizontal from "./vizTools/BarchartTool_Horizontal.js";
 import LinechartTool from "./vizTools/LinechartTool.js";
+import LinechartTool2 from "./vizTools/LinechartTool2.js";
 
 export default class VizPanel extends React.Component {
   // const [showSVG, setShowSVG] = useState(false); // look up destructuring
@@ -105,24 +106,28 @@ export default class VizPanel extends React.Component {
           monitors={this.state.wardPolygons.data}
         ></ReactMapTool>
 
-        <SVGContainer>
-          <LinechartTool
-            title={
-              this.props.panCityView
-                ? "PM2.5 for PAN CITY VIEW"
-                : "PM2.5 history for " +
-                  this.props.selectedMode +
-                  " " +
-                  this.props.selectedWardOrMonitor
-            }
-            pollutantHistory={
-              this.props.panCityView
-                ? this.state.pollutantHistory
-                : this.props.wardOrMonitorHistory
-            }
-            panCityView={this.props.panCityView}
-          ></LinechartTool>
-        </SVGContainer>
+        {this.props.panCityView ? (
+          <SVGContainer>
+            <LinechartTool
+              title={"PM2.5 for PAN CITY VIEW"}
+              pollutantHistory={this.state.pollutantHistory}
+              panCityView={this.props.panCityView}
+            ></LinechartTool>
+          </SVGContainer>
+        ) : (
+          <SVGContainer>
+            <LinechartTool2
+              title={
+                "PM2.5 history for " +
+                this.props.selectedMode +
+                " " +
+                this.props.selectedWardOrMonitor
+              }
+              pollutantHistory={this.props.wardOrMonitorHistory}
+              panCityView={this.props.panCityView}
+            ></LinechartTool2>
+          </SVGContainer>
+        )}
       </>
     );
 
