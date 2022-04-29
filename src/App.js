@@ -41,6 +41,7 @@ export default class App extends React.Component {
   updateDates = (e) => {
     // Fetching NEW data according to UPDATED DATES
     this.get_pm25Ranks();
+    this.getWardOrMonitorHistory();
   };
 
   // Get top 3 and bottom 3 ranks for pollutants
@@ -92,14 +93,14 @@ export default class App extends React.Component {
     }
   }
 
-  async getWardOrMonitorHistory(e) {
+  async getWardOrMonitorHistory() {
     let message = "";
 
     const payload = {
       startDate: this.state.startDate,
       endDate: this.state.endDate,
       selectedMode: this.state.selectedMode,
-      selectedWardOrMonitor: e.value,
+      selectedWardOrMonitor: this.state.selectedWardOrMonitor,
     };
 
     // retrieving data
@@ -150,8 +151,6 @@ export default class App extends React.Component {
     this.get_pm25Ranks();
     // MAPTOOL
     // this.getWardPolygons();
-    //LINE CHART TOOL PAN CITY VIEW
-    // this.getPollutantHistory(); //TODO paramterize pollutant
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -159,6 +158,10 @@ export default class App extends React.Component {
     // Fetching NEW data according to UPDATED SELECTED MODE
     if (this.state.selectedMode !== prevState.selectedMode) {
       this.get_pm25Ranks();
+    }
+    if (this.state.selectedWardOrMonitor !== prevState.selectedWardOrMonitor) {
+      //console.log("in component did update", this.state.selectedWardOrMonitor);
+      this.getWardOrMonitorHistory();
     }
   }
 

@@ -92,7 +92,7 @@ export default class ControlPanel extends React.Component {
     this.props.setSelectedWardOrMonitor(e);
     this.props.handlePanCityView();
     //ASYNC CALL FOR selectedWard TODO verify if this is the right thing to do
-    this.props.getWardOrMonitorHistory(e);
+    // this.props.getWardOrMonitorHistory(e);
   };
 
   /* * * Lifecycle hooks */
