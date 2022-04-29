@@ -19,6 +19,16 @@ export default class App extends React.Component {
       selectedMode: "WARD",
       selectedWardOrMonitor: "",
       panCityView: true,
+      wardOrMonitorHistory: [],
+      // wardOrMonitorHistory: [
+      //   { Month_Year: "2021-05-01", monthly_average_pm25: "8.28", Year: 2021 },
+      //   { Month_Year: "2021-06-01", monthly_average_pm25: "7.08", Year: 2021 },
+      //   { Month_Year: "2021-07-01", monthly_average_pm25: "6.95", Year: 2021 },
+      //   { Month_Year: "2021-08-01", monthly_average_pm25: "11.21", Year: 2021 },
+      //   { Month_Year: "2021-09-01", monthly_average_pm25: "8.42", Year: 2021 },
+      //   { Month_Year: "2021-10-01", monthly_average_pm25: "13.22", Year: 2021 },
+      // ],
+      rankedWards: [],
       startDate: new Date("2021-04-24"),
       endDate: new Date(),
       alert: {
@@ -28,17 +38,9 @@ export default class App extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // TODO get this verified
-    // Fetching NEW data according to UPDATED SELECTED MODE
-    if (this.state.selectedMode !== prevState.selectedMode) {
-      // this.get_pm25Ranks();
-    }
-  }
-
   updateDates = (e) => {
     // Fetching NEW data according to UPDATED DATES
-    // this.get_pm25Ranks();
+    this.get_pm25Ranks();
   };
 
   // Get top 3 and bottom 3 ranks for pollutants
@@ -90,17 +92,74 @@ export default class App extends React.Component {
     }
   }
 
+  async getWardOrMonitorHistory(e) {
+    let message = "";
+
+    const payload = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      selectedMode: this.state.selectedMode,
+      selectedWardOrMonitor: e.value,
+    };
+
+    // retrieving data
+    const url = "http://localhost:5600/API/getWardOrMonitorHistory";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+    const response = await fetch(url, requestOptions);
+    //processing retrieved data
+    const responseObject = await response.json();
+    console.log(
+      " * * * * History for " +
+        payload.selectedMode +
+        payload.selectedWardOrMonitor +
+        " received from db * * * * ",
+      responseObject
+    );
+
+    if (responseObject.status === "success") {
+      this.setState({
+        wardOrMonitorHistory: responseObject.data,
+      });
+    } else {
+      if (responseObject.message === "No data found in DB") {
+        message =
+          "Sorry! We do not have the data for the selected monitor or ward or the date ranges. Please try changing them.";
+      }
+
+      this.setState({
+        alert: {
+          alertMessage: message,
+          alertRaised: true,
+        },
+      });
+    }
+  }
+
   /*
    * FETCHING DATA FROM API
    * This is where all the api calls are made to get data from the server
    */
   componentDidMount() {
     // HORIZONTAL BAR CHART TOOL
-    // this.get_pm25Ranks();
+    this.get_pm25Ranks();
     // MAPTOOL
     // this.getWardPolygons();
-    //LINE CHART TOOL
+    //LINE CHART TOOL PAN CITY VIEW
     // this.getPollutantHistory(); //TODO paramterize pollutant
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // TODO get this verified
+    // Fetching NEW data according to UPDATED SELECTED MODE
+    if (this.state.selectedMode !== prevState.selectedMode) {
+      this.get_pm25Ranks();
+    }
   }
 
   handleAlerts = (status) => {
@@ -148,6 +207,7 @@ export default class App extends React.Component {
           }
           setSelectedWardOrMonitor={this.setSelectedWardOrMonitor}
           handlePanCityView={this.handlePanCityView}
+          getWardOrMonitorHistory={this.getWardOrMonitorHistory.bind(this)}
           setStartDate={(date) => this.setState({ startDate: date })}
           setEndDate={(date) => this.setState({ endDate: date })}
         />
@@ -158,7 +218,10 @@ export default class App extends React.Component {
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             selectedMode={this.state.selectedMode}
+            panCityView={this.state.panCityView}
+            selectedWardOrMonitor={this.state.selectedWardOrMonitor}
             rankedWards={this.state.rankedWards}
+            wardOrMonitorHistory={this.state.wardOrMonitorHistory}
           />
         )}
       </>

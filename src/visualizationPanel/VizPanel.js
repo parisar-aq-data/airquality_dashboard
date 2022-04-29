@@ -19,7 +19,6 @@ export default class VizPanel extends React.Component {
       loading: false,
       wardPolygons: [],
       pollutantHistory: [],
-      // rankedWards: this.props.rankedWards,
     };
   }
 
@@ -77,17 +76,8 @@ export default class VizPanel extends React.Component {
     });
   }
 
-  /*
-   * FETCHING DATA FROM API
-   * This is where all the api calls are made to get data from the server
-   */
   componentDidMount() {
-    // HORIZONTAL BAR CHART TOOL
-    // this.getWard_pm25Ranks();
-    // MAPTOOL
-    // this.getWardPolygons();
-    //LINE CHART TOOL
-    // this.getPollutantHistory(); //TODO paramterize pollutant
+    this.getPollutantHistory();
   }
 
   render() {
@@ -102,10 +92,9 @@ export default class VizPanel extends React.Component {
         <SVGContainer>
           <BarchartToolHorizontal
             title={
-              "Top 3 Wards showing the lowest to highest levels of pm2.5 from " +
-              this.props.startDate.toISOString().substring(0, 10) +
-              "  to " +
-              this.props.endDate.toISOString().substring(0, 10)
+              "Top 3 " +
+              (this.props.selectedMode === "WARD" ? "wards" : "monitors") +
+              " showing the lowest to highest levels of pm2.5"
             }
             rankedWards={this.props.rankedWards}
           ></BarchartToolHorizontal>
@@ -118,8 +107,20 @@ export default class VizPanel extends React.Component {
 
         <SVGContainer>
           <LinechartTool
-            title={"PM2.5 history for IUDX, SAFAR and Wards"}
-            pollutantHistory={this.state.pollutantHistory}
+            title={
+              this.props.panCityView
+                ? "PM2.5 for PAN CITY VIEW"
+                : "PM2.5 history for " +
+                  this.props.selectedMode +
+                  " " +
+                  this.props.selectedWardOrMonitor
+            }
+            pollutantHistory={
+              this.props.panCityView
+                ? this.state.pollutantHistory
+                : this.props.wardOrMonitorHistory
+            }
+            panCityView={this.props.panCityView}
           ></LinechartTool>
         </SVGContainer>
       </>

@@ -1,3 +1,4 @@
+// import { render } from "@testing-library/react";
 import * as d3 from "d3";
 import React, { useEffect, useRef } from "react";
 
@@ -14,17 +15,137 @@ export default function LinechartTool(props) {
     left: 100,
   };
 
-  // DATA to populate CHART
-  const data = props.pollutantHistory;
-  const iudx_data = data.filter((d) => d.type === "iudx");
-  const safar_data = data.filter((d) => d.type === "safar");
-  const ward_data = data.filter((d) => d.type === "ward");
-  const dates = data.map((d) => new Date(d.Month_Year));
+  let dates = null;
+  let data = null;
+
+  //PAn city view
+  let iudx_data = null;
+  let safar_data = null;
+  let ward_data = null;
+  //ward or monitor view
+  let data_21 = null;
+  let data_22 = null;
+
+  const dataPrep = () => {
+    data = props.pollutantHistory;
+
+    if (props.panCityView) {
+      iudx_data = data.filter((d) => d.type === "iudx");
+      safar_data = data.filter((d) => d.type === "safar");
+      ward_data = data.filter((d) => d.type === "ward");
+      dates = data.map((d) => new Date(d.Month_Year));
+    } else {
+      // for monitor specific view
+      data_21 = data.filter((d) => d.Year === 2021);
+      data_22 = data.filter((d) => d.Year === 2022);
+      dates = data.map((d) => new Date(d.Month_Year));
+    }
+  };
+
+  const renderPanCityView = (svgEl, x_scale, y_scale) => {
+    //IUDX
+    svgEl
+      .append("path")
+      .datum(iudx_data)
+      .attr("fill", "none")
+      .attr("stroke", "#D81B60")
+      .attr("stroke-width", 2.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x_scale(new Date(d.Month_Year));
+          })
+          .y(function (d) {
+            return y_scale(Number(d.monthly_average_pm25));
+          })
+      );
+
+    //SAFAR
+    svgEl
+      .append("path")
+      .datum(safar_data)
+      .attr("fill", "none")
+      .attr("stroke", "#1E88E5")
+      .attr("stroke-width", 2.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x_scale(new Date(d.Month_Year));
+          })
+          .y(function (d) {
+            return y_scale(Number(d.monthly_average_pm25));
+          })
+      );
+
+    svgEl
+      .append("path")
+      .datum(ward_data)
+      .attr("fill", "none")
+      .attr("stroke", "#004D40")
+      .attr("stroke-width", 2.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x_scale(new Date(d.Month_Year));
+          })
+          .y(function (d) {
+            return y_scale(Number(d.monthly_average_pm25));
+          })
+      );
+  };
+
+  const renderMonitorView = (svgEl, x_scale, y_scale) => {
+    //2021
+    svgEl
+      .append("path")
+      .datum(data_21)
+      .attr("fill", "none")
+      .attr("stroke", "red")
+      .attr("stroke-width", 2.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x_scale(new Date(d.Month_Year));
+          })
+          .y(function (d) {
+            return y_scale(Number(d.monthly_average_pm25));
+          })
+      );
+
+    //2022
+    svgEl
+      .append("path")
+      .datum(data_22)
+      .attr("fill", "none")
+      .attr("stroke", "green")
+      .attr("stroke-width", 2.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x_scale(new Date(d.Month_Year));
+          })
+          .y(function (d) {
+            return y_scale(Number(d.monthly_average_pm25));
+          })
+      );
+  };
 
   useEffect(() => {
+    dataPrep();
+
     const svgEl = d3.select(svgRef.current);
+    svgEl.selectAll("*").remove();
     const h = svgHeight + 20;
-    // const D = d3.map(data, defined);
 
     // X scale
     const x_scale = d3
@@ -65,61 +186,11 @@ export default function LinechartTool(props) {
           y2: y_scale(35), //end of the line
         });
 
-      //IUDX
-      svgEl
-        .append("path")
-        .datum(iudx_data)
-        .attr("fill", "none")
-        .attr("stroke", "#D81B60")
-        .attr("stroke-width", 2.5)
-        .attr(
-          "d",
-          d3
-            .line()
-            .x(function (d) {
-              return x_scale(new Date(d.Month_Year));
-            })
-            .y(function (d) {
-              return y_scale(Number(d.monthly_average_pm25));
-            })
-        );
-
-      //SAFAR
-      svgEl
-        .append("path")
-        .datum(safar_data)
-        .attr("fill", "none")
-        .attr("stroke", "#1E88E5")
-        .attr("stroke-width", 2.5)
-        .attr(
-          "d",
-          d3
-            .line()
-            .x(function (d) {
-              return x_scale(new Date(d.Month_Year));
-            })
-            .y(function (d) {
-              return y_scale(Number(d.monthly_average_pm25));
-            })
-        );
-
-      svgEl
-        .append("path")
-        .datum(ward_data)
-        .attr("fill", "none")
-        .attr("stroke", "#004D40")
-        .attr("stroke-width", 2.5)
-        .attr(
-          "d",
-          d3
-            .line()
-            .x(function (d) {
-              return x_scale(new Date(d.Month_Year));
-            })
-            .y(function (d) {
-              return y_scale(Number(d.monthly_average_pm25));
-            })
-        );
+      if (props.panCityView) {
+        renderPanCityView(svgEl, x_scale, y_scale);
+      } else {
+        renderMonitorView(svgEl, x_scale, y_scale);
+      }
     }
   });
 

@@ -17,15 +17,15 @@ export default class ControlPanel extends React.Component {
     this.state = {
       selectedDataSourceId: 0,
       filteredMonitors: [],
-      // wardsAndMonitors: [],
-      wardsAndMonitors: [
-        { label: "WARD1", value: "WARD1", type: "WARD" },
-        { label: "WARD2", value: "WARD2", type: "WARD" },
-        { label: "WARD3", value: "WARD3", type: "WARD" },
-        { label: "SAFAR1", value: "SAFAR1", type: "SAFAR" },
-        { label: "IUDX1", value: "IUDX1", type: "IUDX" },
-        { label: "MPCB1", value: "MPCB1", type: "MPCB" },
-      ],
+      wardsAndMonitors: [],
+      // wardsAndMonitors: [
+      //   { label: "WARD1", value: "WARD1", type: "WARD" },
+      //   { label: "WARD2", value: "WARD2", type: "WARD" },
+      //   { label: "WARD3", value: "WARD3", type: "WARD" },
+      //   { label: "SAFAR1", value: "SAFAR1", type: "SAFAR" },
+      //   { label: "IUDX1", value: "IUDX1", type: "IUDX" },
+      //   { label: "MPCB1", value: "MPCB1", type: "MPCB" },
+      // ],
     };
   }
 
@@ -89,8 +89,10 @@ export default class ControlPanel extends React.Component {
   };
 
   setSelectedWardOrMonitor = (e) => {
-    this.props.handlePanCityView();
     this.props.setSelectedWardOrMonitor(e);
+    this.props.handlePanCityView();
+    //ASYNC CALL FOR selectedWard TODO verify if this is the right thing to do
+    this.props.getWardOrMonitorHistory(e);
   };
 
   /* * * Lifecycle hooks */
@@ -104,24 +106,24 @@ export default class ControlPanel extends React.Component {
     const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
 
     //TESTING
-    let wnm = this.state.wardsAndMonitors;
-    let filteredMonitors = this.filterWardsAndMonitors(
-      dataSources[this.state.selectedDataSourceId]
-    );
-    this.setState({
-      filteredMonitors: filteredMonitors,
-    });
+    // let wnm = this.state.wardsAndMonitors;
+    // let filteredMonitors = this.filterWardsAndMonitors(
+    //   dataSources[this.state.selectedDataSourceId]
+    // );
+    // this.setState({
+    //   filteredMonitors: filteredMonitors,
+    // });
 
     //FETCHING FROM SERVER
-    // let wnm = this.getWardsAndMonitors();
-    // wnm.then((value) => {
-    //   let filteredMonitors = this.filterWardsAndMonitors(
-    //     dataSources[this.state.selectedDataSourceId]
-    //   );
-    //   this.setState({
-    //     filteredMonitors: filteredMonitors,
-    //   });
-    // });
+    let wnm = this.getWardsAndMonitors();
+    wnm.then((value) => {
+      let filteredMonitors = this.filterWardsAndMonitors(
+        dataSources[this.state.selectedDataSourceId]
+      );
+      this.setState({
+        filteredMonitors: filteredMonitors,
+      });
+    });
   }
 
   render() {
@@ -165,12 +167,16 @@ export default class ControlPanel extends React.Component {
                 <Button variant="link" onClick={this.props.handlePanCityView}>
                   PUNE
                 </Button>
-                <div className="breadcrumbs">
-                  {"Selected "}
+                <div>
+                  {/* {"Selected "}
                   {this.state.selectedDataSourceId === 0
                     ? "ward : "
-                    : "monitor : "}
-                  {this.props.selectedWardOrMonitor}
+                    : dataSources[this.state.selectedDataSourceId] +
+                      " monitor : "} */}
+                  {"/ " +
+                    dataSources[this.state.selectedDataSourceId] +
+                    "  : " +
+                    this.props.selectedWardOrMonitor}
                 </div>
               </div>
             )}
