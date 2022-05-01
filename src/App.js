@@ -20,14 +20,7 @@ export default class App extends React.Component {
       selectedWardOrMonitor: "",
       panCityView: true,
       wardOrMonitorHistory: [],
-      // wardOrMonitorHistory: [
-      //   { Month_Year: "2021-05-01", monthly_average_pm25: "8.28", Year: 2021 },
-      //   { Month_Year: "2021-06-01", monthly_average_pm25: "7.08", Year: 2021 },
-      //   { Month_Year: "2021-07-01", monthly_average_pm25: "6.95", Year: 2021 },
-      //   { Month_Year: "2021-08-01", monthly_average_pm25: "11.21", Year: 2021 },
-      //   { Month_Year: "2021-09-01", monthly_average_pm25: "8.42", Year: 2021 },
-      //   { Month_Year: "2021-10-01", monthly_average_pm25: "13.22", Year: 2021 },
-      // ],
+      wardPolygons: [],
       rankedWards: [],
       startDate: new Date("2021-04-24"),
       endDate: new Date(),
@@ -142,6 +135,39 @@ export default class App extends React.Component {
     }
   }
 
+  async getWardPolygons() {
+    let message = "";
+
+    // TODO get this date from UI components
+    let today = new Date("2021-06-06");
+    const payload = {
+      date1: today.toISOString().split("T")[0],
+      categories: ["iudx", "safar", "ward"],
+    };
+
+    // retrieving data
+    const url = "http://localhost:5600/API/wardPolygons";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+    const response = await fetch(url, requestOptions);
+
+    //processing retrieved data
+    const wardPolygons = await response.json();
+    console.log(
+      " * * * * POLYGONS with pollutants received from db * * * * ",
+      wardPolygons
+    );
+
+    this.setState({
+      wardPolygons: wardPolygons,
+    });
+  }
+
   /*
    * FETCHING DATA FROM API
    * This is where all the api calls are made to get data from the server
@@ -150,7 +176,7 @@ export default class App extends React.Component {
     // HORIZONTAL BAR CHART TOOL
     this.get_pm25Ranks();
     // MAPTOOL
-    // this.getWardPolygons();
+    this.getWardPolygons();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -214,7 +240,7 @@ export default class App extends React.Component {
           setStartDate={(date) => this.setState({ startDate: date })}
           setEndDate={(date) => this.setState({ endDate: date })}
         />
-        {!this.state.rankedWards ? (
+        {this.state.rankedWards.length < 1 ? (
           "Retrieving data . . ."
         ) : (
           <VizPanel
@@ -225,6 +251,7 @@ export default class App extends React.Component {
             selectedWardOrMonitor={this.state.selectedWardOrMonitor}
             rankedWards={this.state.rankedWards}
             wardOrMonitorHistory={this.state.wardOrMonitorHistory}
+            wardPolygons={this.state.wardPolygons}
           />
         )}
       </>

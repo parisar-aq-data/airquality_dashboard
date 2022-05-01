@@ -2,7 +2,7 @@ import React from "react";
 
 import SVGContainer from "./SVGContainer.js";
 import ScatterplotTool from "./vizTools/ScatterplotTool.js";
-import ReactMapTool from "./vizTools/ReactMapTool.js";
+import ReactMapTool2 from "./vizTools/ReactMapTool2.js";
 import BarchartToolHorizontal from "./vizTools/BarchartTool_Horizontal.js";
 import LinechartTool from "./vizTools/LinechartTool.js";
 import LinechartToolMonitorHistory from "./vizTools/LinechartToolMonitorHistory.js";
@@ -17,42 +17,8 @@ export default class VizPanel extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
-      wardPolygons: [],
       pollutantHistory: [],
     };
-  }
-
-  async getWardPolygons() {
-    // TODO get this date from UI components
-    let today = new Date("2021-06-06");
-    const payload = {
-      date1: today.toISOString().split("T")[0],
-      categories: ["iudx", "safar", "ward"],
-    };
-
-    // retrieving data
-    const url = "http://localhost:5600/API/wardPolygons";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    };
-    const response = await fetch(url, requestOptions);
-
-    //processing retrieved data
-    const wardPolygons = await response.json();
-    console.log(
-      " * * * * Geo mapped pollutants received from db * * * * ",
-      wardPolygons
-    );
-
-    this.setState({
-      //pollutant_geolocations: wardPolygons.data,
-      wardPolygons: wardPolygons,
-    });
   }
 
   async getPollutantHistory() {
@@ -78,7 +44,7 @@ export default class VizPanel extends React.Component {
   }
 
   componentDidMount() {
-    this.getPollutantHistory();
+    // this.getPollutantHistory();
   }
 
   render() {
@@ -101,10 +67,11 @@ export default class VizPanel extends React.Component {
           ></BarchartToolHorizontal>
         </SVGContainer>
 
-        <ReactMapTool
-          shapes={this.state.wardPolygons.shapes}
-          monitors={this.state.wardPolygons.data}
-        ></ReactMapTool>
+        <ReactMapTool2
+          shapes={this.props.wardPolygons.shapes}
+          monitors={this.props.wardPolygons.data}
+          center={[18.502, 73.853]}
+        ></ReactMapTool2>
 
         {this.props.panCityView ? (
           <SVGContainer>
