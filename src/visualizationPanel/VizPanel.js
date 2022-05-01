@@ -68,8 +68,11 @@ export default class VizPanel extends React.Component {
         </SVGContainer>
 
         <ReactMapTool2
+          panCityView={this.props.panCityView}
           shapes={this.props.wardPolygons.shapes}
           monitors={this.props.wardPolygons.data}
+          selectedMode={this.props.selectedMode}
+          selectedWardOrMonitor={this.props.selectedWardOrMonitor}
           center={[18.502, 73.853]}
         ></ReactMapTool2>
 

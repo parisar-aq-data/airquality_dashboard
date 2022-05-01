@@ -13,9 +13,17 @@ import React from "react";
 export default class ReactMapTool2 extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      ward: "",
+      selectedMonitor: "",
+    };
   }
 
+  wardsCentroids = [];
+
   getWardPolygons() {
+    //TODO check for pancityView
     let polygons = [];
     const features = this.props.shapes.features;
 
@@ -72,6 +80,7 @@ export default class ReactMapTool2 extends React.Component {
   }
 
   getIudxMonitors() {
+    //TODO check for pancityView
     let iudxMarkers = [];
     //1. filter iudx monitors
     const fillIudx = { color: "green", fillColor: "green" };
@@ -100,6 +109,7 @@ export default class ReactMapTool2 extends React.Component {
   }
 
   getSafarMonitors() {
+    //TODO check for pancityView
     let safarMarkers = [];
     const fillSafar = { color: "red", fillColor: "red" };
 
@@ -128,7 +138,41 @@ export default class ReactMapTool2 extends React.Component {
     return safarMarkers;
   }
 
-  componentDidMount() {}
+  async getWardCentroids() {
+    // retrieving data
+    const url = "http://localhost:5600/API/wardCentroids";
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: null,
+    };
+    const response = await fetch(url, requestOptions);
+
+    //processing retrieved data
+    this.wardsCentroids = await response.json();
+    console.log(" * * * * WARDS CENTROIDS * * * * ", this.wardsCentroids);
+  }
+
+  componentDidMount() {
+    this.getWardCentroids();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.selectedWardOrMonitor !== prevProps.selectedWardOrMonitor) {
+      if (this.props.selectedMode === "IUDX") {
+        // set State of Maptool selectedMode and SelectedMonitor
+        // which will cause rerndering
+      } else if (this.props.selectedMode === "SAFAR") {
+        // set State of Maptool selectedMode and SelectedMonitor
+        // which will cause rerndering
+      } else {
+        // set State of Maptool selectedMode and SelectedMonitor
+        // which will cause rerndering
+      }
+    }
+  }
 
   render() {
     let polygons = [];
