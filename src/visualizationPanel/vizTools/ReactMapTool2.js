@@ -23,9 +23,20 @@ export default class ReactMapTool2 extends React.Component {
   wardsCentroids = [];
 
   getWardPolygons() {
-    //TODO check for pancityView
     let polygons = [];
-    const features = this.props.shapes.features;
+    let features = [];
+
+    // for whole city view, draw all wards
+    if (this.props.panCityView) {
+      features = this.props.shapes.features;
+    }
+    // if ward specific view, draw the selected ward, for monitor specific view, draw the monitor and the ward it belongs to
+    // filter the feature that represents the ward selected and push only that one polygon to be rendered
+    else {
+      features = this.props.shapes.features.filter(
+        (feat) => feat.properties.name_mr == this.props.selectedWardOrMonitor
+      );
+    }
 
     // GEO JSON data is returned with x and y flipped
     for (let i = 0; i < features.length; i++) {
@@ -63,7 +74,6 @@ export default class ReactMapTool2 extends React.Component {
     }
 
     features.forEach((feat, index) => {
-      // console.log("feat", feat);
       polygons.push(
         <Polygon
           key={index}
@@ -156,11 +166,17 @@ export default class ReactMapTool2 extends React.Component {
   }
 
   componentDidMount() {
-    this.getWardCentroids();
+    // this.getWardCentroids();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.selectedWardOrMonitor !== prevProps.selectedWardOrMonitor) {
+    console.log("prevprops", prevProps.selectedWardOrMonitor);
+    console.log("this.props", this.props.selectedWardOrMonitor);
+
+    if (
+      this.props.selectedWardOrMonitor !== prevProps.selectedWardOrMonitor &&
+      this.props.selectedMode !== prevProps.selectedMode
+    ) {
       if (this.props.selectedMode === "IUDX") {
         // set State of Maptool selectedMode and SelectedMonitor
         // which will cause rerndering
@@ -168,8 +184,15 @@ export default class ReactMapTool2 extends React.Component {
         // set State of Maptool selectedMode and SelectedMonitor
         // which will cause rerndering
       } else {
+        console.log(
+          "in component did update",
+          this.props.selectedWardOrMonitor
+        );
         // set State of Maptool selectedMode and SelectedMonitor
         // which will cause rerndering
+        this.setState({
+          ward: this.props.selectedWardOrMonitor,
+        });
       }
     }
   }
@@ -179,9 +202,12 @@ export default class ReactMapTool2 extends React.Component {
     let iudxMarkers = [];
     let safarMarkers = [];
 
+    console.log("Calling MAP RENDER");
+
     /* WARD POLYGONS */
     if (this.props.shapes) {
       polygons = this.getWardPolygons();
+      console.log("rendering polygons", polygons.length);
     }
 
     /* MONITORS */
@@ -203,8 +229,8 @@ export default class ReactMapTool2 extends React.Component {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
+          {polygons}
           <LayersControl position="topright">
-            <LayerGroup>{polygons}</LayerGroup>
             <LayersControl.Overlay checked={false} name="IUDX Monitors">
               <LayerGroup>{iudxMarkers}</LayerGroup>
             </LayersControl.Overlay>
