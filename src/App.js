@@ -21,7 +21,51 @@ export default class App extends React.Component {
       panCityView: true,
       wardOrMonitorHistory: [],
       wardPolygons: [],
-      rankedWards: [],
+      // rankedWards: [],
+      rankedWards: [
+        {
+          location_id: "ward_10",
+          name: "बावधन - कोथरुड डेपो",
+          Average_pm25: "35.26",
+          best: 37,
+          worst: 1,
+        },
+        {
+          location_id: "ward_11",
+          name: "रामबाग कॉलनी-शिवतीर्थ नगर",
+          Average_pm25: "35.04",
+          best: 36,
+          worst: 2,
+        },
+        {
+          location_id: "ward_8",
+          name: "औंध - बोपोडी",
+          Average_pm25: "34.77",
+          best: 35,
+          worst: 3,
+        },
+        {
+          location_id: "ward_40",
+          name: "आंबेगांव दत्तनगर-कात्रज गावठाण",
+          Average_pm25: "32.48",
+          best: 3,
+          worst: 35,
+        },
+        {
+          location_id: "ward_41",
+          name: "कोंढवा बुद्रुक - येवलेवाडी",
+          Average_pm25: "32.43",
+          best: 2,
+          worst: 36,
+        },
+        {
+          location_id: "ward_37",
+          name: "अप्पर सुपर इंदिरा नगर",
+          Average_pm25: "32.40",
+          best: 1,
+          worst: 37,
+        },
+      ],
       startDate: new Date("2021-04-24"),
       endDate: new Date(),
       alert: {
@@ -174,7 +218,7 @@ export default class App extends React.Component {
    */
   componentDidMount() {
     // HORIZONTAL BAR CHART TOOL
-    this.get_pm25Ranks();
+    // this.get_pm25Ranks();
     // MAPTOOL
     this.getWardPolygons();
   }
@@ -232,7 +276,10 @@ export default class App extends React.Component {
           endDate={this.state.endDate}
           selectedWardOrMonitor={this.state.selectedWardOrMonitor}
           setSelectedMode={(e) =>
-            this.setState({ selectedMode: e.target.value })
+            this.setState({
+              selectedMode: e.target.value,
+              selectedWardOrMonitor: "",
+            })
           }
           setSelectedWardOrMonitor={this.setSelectedWardOrMonitor}
           handlePanCityView={this.handlePanCityView}
