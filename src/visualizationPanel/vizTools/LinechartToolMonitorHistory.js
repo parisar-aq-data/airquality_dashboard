@@ -31,7 +31,7 @@ export default function LinechartToolMonitorHistory(props) {
 
   const dataPrep = () => {
     data = props.pollutantHistory;
-    console.log("data in linechart 2", data);
+    // console.log("data in linechart 2", data);
   };
 
   const renderMonitorView = (svgEl, xScale, yScale) => {
@@ -41,7 +41,7 @@ export default function LinechartToolMonitorHistory(props) {
 
       //SORTING
       data_yr = data_yr.sort((a, b) => a.month_number - b.month_number);
-      console.log("Sorted data", data_yr);
+      // console.log("Sorted data", data_yr);
 
       svgEl
         .append("path")

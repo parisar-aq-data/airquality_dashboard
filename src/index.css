@@ -17,7 +17,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
-  /* color: #333; */
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -109,23 +108,25 @@ input {
 
 .svgcontainer {
   /* background-color: powderblue; */
-  /* border: solid 1px#D2D2CF; */
+  border: solid 1px#D2D2CF;
   margin: 5px;
+  flex: 1;
   color: rgb(110, 106, 106);
 }
 
-.map_tool {
+/* .map_tool {
   margin: 5px;
   /* border: solid 1px#D2D2CF; */
-  /* grid-column-start: 1; */
-  /* grid-column-end: span col2-end; */
-  /* grid-row-start: 1;
+/* grid-column-start: 1; */
+/* grid-column-end: span col2-end; */
+/* grid-row-start: 1;
   grid-row-end: span row2-end; */
-  /* border: solid 1px rgb(90, 169, 214); */
-}
+/* border: solid 1px rgb(90, 169, 214); */
 
 .textTool {
-  /* border: solid 1px#D2D2CF; */
+  border: solid 1px#D2D2CF;
+  color: #7c7c7c;
+  text-align: justify;
   /* background-color: burlywood; */
   overflow-y: auto;
   margin: 5px;
@@ -136,4 +137,44 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/*flex box */
+.map_tool {
+  border: solid 1px#D2D2CF;
+  height: 100%;
+  margin: 5px;
+}
+
+.mapBaap {
+  /* padding: 5px; */
+  height: 80%;
+}
+
+.vizpanel {
+  /* background-color: pink; */
+  display: flex;
+  flex-direction: row;
+}
+.text_n_map {
+  /* background-color: cyan; */
+  flex: 0.5;
+}
+
+.bar_n_line {
+  /* background-color: darkorange; */
+  flex: 0.5;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.textTool {
+  /* border: solid 1px#D2D2CF; */
+  /* background-color: rgb(218, 210, 200); */
+  flex: 0.5;
+  padding: 10px;
+}
+.display-linebreak {
+  white-space: pre-line;
 }
