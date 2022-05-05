@@ -91,8 +91,6 @@ export default class ControlPanel extends React.Component {
   setSelectedWardOrMonitor = (e) => {
     this.props.setSelectedWardOrMonitor(e);
     this.props.handlePanCityView();
-    //ASYNC CALL FOR selectedWard TODO verify if this is the right thing to do
-    // this.props.getWardOrMonitorHistory(e);
   };
 
   /* * * Lifecycle hooks */
@@ -148,7 +146,7 @@ export default class ControlPanel extends React.Component {
         <div className="controlpanel">
           <div className="controlPanelSection1">
             {this.props.panCityView ? (
-              <div className="panCityControl">
+              <div className="panCityControl" style={{ zIndex: 999 }}>
                 <ButtonGroup size="sm" className="cp-section1items">
                   {buttons}
                 </ButtonGroup>
