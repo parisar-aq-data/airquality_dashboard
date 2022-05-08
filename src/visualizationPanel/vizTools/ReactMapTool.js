@@ -16,9 +16,9 @@ import "leaflet/dist/leaflet.css";
 function MonitorView(props) {
   const map = useMap();
 
-  // finding the matching shape data for the matched feature
   let matchedFeature = props.wardsAndMonitors.find(
-    (feat) => feat.name === props.selectedWardOrMonitor
+    (feat) =>
+      feat.name.toUpperCase() === props.selectedWardOrMonitor.toUpperCase()
   );
 
   let [centerX, centerY] = [
@@ -218,6 +218,7 @@ export default function ReactMapTool(props) {
         <PanCityView features={features} />
       ) : (
         <MonitorView
+          selectedMode={props.selectedMode}
           wardsAndMonitors={props.monitors}
           selectedWardOrMonitor={props.selectedWardOrMonitor}
         />
@@ -228,10 +229,20 @@ export default function ReactMapTool(props) {
       />
       {polygons}
       <LayersControl position="bottomright">
-        <LayersControl.Overlay checked={false} name="IUDX Monitors">
+        <LayersControl.Overlay
+          checked={
+            props.selectedMode === "IUDX" && !props.panCityView ? true : false
+          }
+          name="IUDX Monitors"
+        >
           <LayerGroup>{iudxMarkers}</LayerGroup>
         </LayersControl.Overlay>
-        <LayersControl.Overlay checked={true} name="Safar Monitors">
+        <LayersControl.Overlay
+          checked={
+            props.selectedMode === "SAFAR" && !props.panCityView ? true : false
+          }
+          name="Safar Monitors"
+        >
           <LayerGroup>{safarMarkers}</LayerGroup>
         </LayersControl.Overlay>
       </LayersControl>
