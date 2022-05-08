@@ -78,7 +78,7 @@ export default class App extends React.Component {
   updateDates = (e) => {
     // Fetching NEW data according to UPDATED DATES
     this.get_pm25Ranks();
-    this.getWardOrMonitorHistory();
+    // this.getWardOrMonitorHistory();
   };
 
   // Get top 3 and bottom 3 ranks for pollutants
@@ -181,31 +181,33 @@ export default class App extends React.Component {
 
   async getWardPolygons() {
     let message = "";
+    let wardPolygons = this.state.wardPolygons;
+    if (this.state.wardPolygons.length != 101) {
+      // TODO get this date from UI components
+      let today = new Date("2021-06-06");
+      const payload = {
+        date1: today.toISOString().split("T")[0],
+        categories: ["iudx", "safar", "ward"],
+      };
 
-    // TODO get this date from UI components
-    let today = new Date("2021-06-06");
-    const payload = {
-      date1: today.toISOString().split("T")[0],
-      categories: ["iudx", "safar", "ward"],
-    };
+      // retrieving data
+      const url = "http://localhost:5600/API/wardPolygons";
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      };
+      const response = await fetch(url, requestOptions);
 
-    // retrieving data
-    const url = "http://localhost:5600/API/wardPolygons";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    };
-    const response = await fetch(url, requestOptions);
-
-    //processing retrieved data
-    const wardPolygons = await response.json();
-    console.log(
-      " * * * * POLYGONS with pollutants received from db * * * * ",
-      wardPolygons
-    );
+      //processing retrieved data
+      wardPolygons = await response.json();
+      console.log(
+        " * * * * POLYGONS with pollutants received from db * * * * ",
+        wardPolygons
+      );
+    }
 
     this.setState({
       wardPolygons: wardPolygons,
@@ -229,9 +231,15 @@ export default class App extends React.Component {
     if (this.state.selectedMode !== prevState.selectedMode) {
       this.get_pm25Ranks();
     }
-    if (this.state.selectedWardOrMonitor !== prevState.selectedWardOrMonitor) {
-      //console.log("in component did update", this.state.selectedWardOrMonitor);
+    if (
+      this.state.selectedWardOrMonitor !== prevState.selectedWardOrMonitor &&
+      this.state.selectedWardOrMonitor !== ""
+    ) {
       this.getWardOrMonitorHistory();
+      // this.getWardPolygons();
+      // this.setState((state, props) => ({
+      //   wardPolygons: this.state.wardPolygons,
+      // }));
     }
   }
 
@@ -248,6 +256,9 @@ export default class App extends React.Component {
     this.setState({
       panCityView: !this.state.panCityView,
     });
+    // this.setState((state) => ({
+    //   panCityView: !state.panCityView,
+    // }));
   };
 
   setSelectedWardOrMonitor = (e) => {
@@ -257,6 +268,8 @@ export default class App extends React.Component {
   };
 
   render() {
+    // console.log("calling render APP");
+
     const content = (
       <>
         {this.state.alert.alertRaised ? (
@@ -283,7 +296,7 @@ export default class App extends React.Component {
           }
           setSelectedWardOrMonitor={this.setSelectedWardOrMonitor}
           handlePanCityView={this.handlePanCityView}
-          getWardOrMonitorHistory={this.getWardOrMonitorHistory.bind(this)}
+          // getWardOrMonitorHistory={this.getWardOrMonitorHistory.bind(this)}
           setStartDate={(date) => this.setState({ startDate: date })}
           setEndDate={(date) => this.setState({ endDate: date })}
         />
