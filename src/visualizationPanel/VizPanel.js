@@ -2,7 +2,7 @@ import React from "react";
 
 import SVGContainer from "./SVGContainer.js";
 import ScatterplotTool from "./vizTools/ScatterplotTool.js";
-import ReactMapTool2 from "./vizTools/ReactMapTool2.js";
+import ReactMapTool from "./vizTools/ReactMapTool.js";
 import BarchartToolHorizontal from "./vizTools/BarchartTool_Horizontal.js";
 import LinechartTool from "./vizTools/LinechartTool.js";
 import LinechartToolMonitorHistory from "./vizTools/LinechartToolMonitorHistory.js";
@@ -48,61 +48,6 @@ export default class VizPanel extends React.Component {
   }
 
   render() {
-    // const ui = (
-    //   <>
-    //     <div className="textTool">
-    //       {
-    //         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-    //       }
-    //     </div>
-
-    //     <SVGContainer>
-    //       <BarchartToolHorizontal
-    //         title={
-    //           "Top 3 " +
-    //           (this.props.selectedMode === "WARD" ? "wards" : "monitors") +
-    //           " showing the lowest to highest levels of pm2.5"
-    //         }
-    //         rankedWards={this.props.rankedWards}
-    //       ></BarchartToolHorizontal>
-    //     </SVGContainer>
-
-    //     <div className="mapBaap">
-    //       <ReactMapTool2
-    //         panCityView={this.props.panCityView}
-    //         shapes={this.props.wardPolygons.shapes}
-    //         monitors={this.props.wardPolygons.data}
-    //         selectedMode={this.props.selectedMode}
-    //         selectedWardOrMonitor={this.props.selectedWardOrMonitor}
-    //         center={[18.502, 73.853]}
-    //       ></ReactMapTool2>
-    //     </div>
-
-    //     {this.props.panCityView ? (
-    //       <SVGContainer>
-    //         <LinechartTool
-    //           title={"PM2.5 for PAN CITY VIEW"}
-    //           pollutantHistory={this.state.pollutantHistory}
-    //           panCityView={this.props.panCityView}
-    //         ></LinechartTool>
-    //       </SVGContainer>
-    //     ) : (
-    //       <SVGContainer>
-    //         <LinechartToolMonitorHistory
-    //           title={
-    //             "PM2.5 history for " +
-    //             this.props.selectedMode +
-    //             " " +
-    //             this.props.selectedWardOrMonitor
-    //           }
-    //           pollutantHistory={this.props.wardOrMonitorHistory}
-    //           panCityView={this.props.panCityView}
-    //         ></LinechartToolMonitorHistory>
-    //       </SVGContainer>
-    //     )}
-    //   </>
-    // );
-
     const ui = (
       <>
         <div className="text_n_map">
@@ -113,14 +58,13 @@ export default class VizPanel extends React.Component {
               "Each ward may have one or more air polluation monitors."}
           </div>
           <div className="mapBaap">
-            <ReactMapTool2
+            <ReactMapTool
               panCityView={this.props.panCityView}
               shapes={this.props.wardPolygons.shapes}
               monitors={this.props.wardPolygons.data}
               selectedMode={this.props.selectedMode}
               selectedWardOrMonitor={this.props.selectedWardOrMonitor}
-              center={[18.502, 73.853]}
-            ></ReactMapTool2>
+            ></ReactMapTool>
           </div>
         </div>
         <div className="bar_n_line">
