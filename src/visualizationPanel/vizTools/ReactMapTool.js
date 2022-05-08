@@ -7,6 +7,7 @@ import {
   Popup,
   LayersControl,
   useMap,
+  Tooltip,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -39,6 +40,8 @@ function PanCityView(props) {
 export default function ReactMapTool(props) {
   let features = [];
   let polygons = [];
+  let iudxMarkers = [];
+  let safarMarkers = [];
 
   /* WARD POLYGONS */
   if (props.shapes) {
@@ -77,7 +80,64 @@ export default function ReactMapTool(props) {
             fillOpacity: 0.7,
           }}
           positions={feat.geometry.coordinates[0]}
-        ></Polygon>
+        >
+          <Tooltip sticky>
+            WARD : {feat.properties.name} <br />
+            {"PM2.5 :  "}
+            {Number(parseFloat(feat.properties.average_daily_pm25)).toFixed(2)}
+          </Tooltip>
+        </Polygon>
+      );
+    });
+  }
+
+  /* IUDX MONITORS */
+  if (props.monitors) {
+    //1. filter iudx monitors
+    const fillIudx = { color: "green", fillColor: "green" };
+    const fillSafar = { color: "red", fillColor: "red" };
+
+    const iudxMonitors = props.monitors.filter(
+      (monitor) => monitor.type === "iudx"
+    );
+    // console.log("IUDX", iudxMonitors);
+    iudxMonitors.forEach((mon, index) => {
+      iudxMarkers.push(
+        <CircleMarker
+          key={index}
+          center={[mon.lat, mon.lon]}
+          pathOptions={fillIudx}
+          radius={10}
+        >
+          <Tooltip sticky>
+            IUDX Monitor <br />
+            {mon.name} <br />
+            {"PM 2.5 :  "}
+            {Number(parseFloat(mon.average_daily_pm25)).toFixed(2)}
+          </Tooltip>
+        </CircleMarker>
+      );
+    });
+
+    //2. filter safar monitors
+    const safarMonitors = props.monitors.filter(
+      (monitor) => monitor.type === "safar"
+    );
+    // console.log("SAFAR", safarMonitors);
+    safarMonitors.forEach((mon, index) => {
+      safarMarkers.push(
+        <CircleMarker
+          key={index}
+          center={[mon.lat, mon.lon]}
+          pathOptions={fillSafar}
+          radius={10}
+        >
+          <Tooltip sticky>
+            Safar Monitor <br /> {mon.name} <br />
+            {"PM 2.5 :  "}
+            {Number(parseFloat(mon.average_daily_pm25)).toFixed(2)}
+          </Tooltip>
+        </CircleMarker>
       );
     });
   }
@@ -97,6 +157,14 @@ export default function ReactMapTool(props) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {polygons}
+      <LayersControl position="topright">
+        <LayersControl.Overlay checked={false} name="IUDX Monitors">
+          <LayerGroup>{iudxMarkers}</LayerGroup>
+        </LayersControl.Overlay>
+        <LayersControl.Overlay checked={true} name="Safar Monitors">
+          <LayerGroup>{safarMarkers}</LayerGroup>
+        </LayersControl.Overlay>
+      </LayersControl>
     </MapContainer>
   );
 }
