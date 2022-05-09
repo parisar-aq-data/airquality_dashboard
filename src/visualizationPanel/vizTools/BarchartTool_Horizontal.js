@@ -15,7 +15,9 @@ export default function BarchartToolHorizontal(props) {
   };
 
   // DATA to populate CHART
-  const data = props.rankedWards;
+  let data = props.rankedWards;
+  //SORTING BY RANK
+  data = data.sort((a, b) => b.best - a.best);
 
   useEffect(() => {
     const svgEl = d3.select(svgRef.current);
