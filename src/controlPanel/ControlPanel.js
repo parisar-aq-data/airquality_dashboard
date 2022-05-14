@@ -6,7 +6,12 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-const dataSources = ["Satellite Based", "Smart City", "SAFAR", "MPCB"];
+const dataSources = [
+  { name: "Satellite Based", type: "WARD" },
+  { name: "Smart City", type: "IUDX" },
+  { name: "SAFAR", type: "SAFAR" },
+  { name: "MPCB", type: "MPCB" },
+];
 
 export default class ControlPanel extends React.Component {
   unitSelectRef = null;
@@ -56,7 +61,7 @@ export default class ControlPanel extends React.Component {
 
   filterWardsAndMonitors(toFilterBy) {
     return this.state.wardsAndMonitors.filter(
-      (monitor) => monitor.type === toFilterBy
+      (monitor) => monitor.type === toFilterBy.type
     );
   }
 
@@ -71,7 +76,8 @@ export default class ControlPanel extends React.Component {
   };
 
   setSelectedMode = (e, i) => {
-    this.props.setSelectedMode(e);
+    let selectedMode = dataSources.find((ds) => ds.name === e.target.value);
+    this.props.setSelectedMode(selectedMode);
 
     /*
     https://stackoverflow.com/questions/50412843/how-to-programmatically-clear-reset-react-select
@@ -81,7 +87,7 @@ export default class ControlPanel extends React.Component {
     if (this.unitSelectRef.state.selectValue.length > 0)
       this.unitSelectRef.clearValue();
 
-    let filteredMonitors = this.filterWardsAndMonitors(e.target.value);
+    let filteredMonitors = this.filterWardsAndMonitors(selectedMode);
 
     this.setState({
       selectedDataSourceId: i,
@@ -126,18 +132,17 @@ export default class ControlPanel extends React.Component {
   }
 
   render() {
-    // const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
     const buttons = (
       <>
-        {dataSources.map((buttonLabel, i) => (
+        {dataSources.map((ds, i) => (
           <Button
             key={i}
             style={{ fontSize: "12px" }}
-            value={buttonLabel}
+            value={ds.name}
             onClick={(event) => this.setSelectedMode(event, i)}
             active={i === this.state.selectedDataSourceId ? true : false}
           >
-            {buttonLabel}
+            {ds.name}
           </Button>
         ))}
       </>
