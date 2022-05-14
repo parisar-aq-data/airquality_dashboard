@@ -97,6 +97,7 @@ export default function ReactMapTool(props) {
   let polygons = [];
   let iudxMarkers = [];
   let safarMarkers = [];
+  let mpcbMarkers = [];
 
   /* WARD POLYGONS */
   if (props.shapes) {
@@ -166,8 +167,9 @@ export default function ReactMapTool(props) {
   /* IUDX MONITORS */
   if (props.monitors) {
     //1. filter iudx monitors
-    const fillIudx = { color: "green", fillColor: "green" };
-    const fillSafar = { color: "red", fillColor: "red" };
+    const fillIudx = { color: "#3885e7", fillColor: "#3885e7" };
+    const fillSafar = { color: "#c738e7", fillColor: "#c738e7" };
+    const fillmpcb = { color: "#1eb708", fillColor: "#1eb708" };
 
     const iudxMonitors = props.monitors.filter(
       (monitor) => monitor.type === "iudx"
@@ -204,6 +206,27 @@ export default function ReactMapTool(props) {
         >
           <Tooltip sticky>
             Safar Monitor <br /> {mon.name} <br />
+            {"PM 2.5 :  "}
+            {Number(parseFloat(mon.average_daily_pm25)).toFixed(2)}
+          </Tooltip>
+        </CircleMarker>
+      );
+    });
+
+    //3. filter MPCB monitors
+    const mpcbMonitors = props.monitors.filter(
+      (monitor) => monitor.type === "mpcb"
+    );
+    mpcbMonitors.forEach((mon, index) => {
+      mpcbMarkers.push(
+        <CircleMarker
+          key={index}
+          center={[mon.lat, mon.lon]}
+          pathOptions={fillmpcb}
+          radius={10}
+        >
+          <Tooltip sticky>
+            MPCB Monitor <br /> {mon.name} <br />
             {"PM 2.5 :  "}
             {Number(parseFloat(mon.average_daily_pm25)).toFixed(2)}
           </Tooltip>
@@ -247,6 +270,16 @@ export default function ReactMapTool(props) {
           name="Safar Monitors"
         >
           <LayerGroup>{safarMarkers}</LayerGroup>
+        </LayersControl.Overlay>
+        <LayersControl.Overlay
+          checked={
+            props.selectedMode.type === "MPCB" && !props.panCityView
+              ? true
+              : false
+          }
+          name="MPCB Monitors"
+        >
+          <LayerGroup>{mpcbMarkers}</LayerGroup>
         </LayersControl.Overlay>
       </LayersControl>
       <Legend />

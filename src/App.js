@@ -145,7 +145,7 @@ export default class App extends React.Component {
       let today = new Date("2021-06-06");
       const payload = {
         date1: today.toISOString().split("T")[0],
-        categories: ["iudx", "safar", "ward"],
+        categories: ["iudx", "safar", "ward", "mpcb"],
       };
 
       // retrieving data
