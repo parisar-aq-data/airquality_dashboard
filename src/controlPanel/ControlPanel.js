@@ -179,7 +179,7 @@ export default class ControlPanel extends React.Component {
                     : dataSources[this.state.selectedDataSourceId] +
                       " monitor : "} */}
                   {"/ " +
-                    dataSources[this.state.selectedDataSourceId] +
+                    dataSources[this.state.selectedDataSourceId].type +
                     "  : " +
                     this.props.selectedWardOrMonitor}
                 </div>

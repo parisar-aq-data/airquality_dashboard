@@ -64,7 +64,7 @@ export default class App extends React.Component {
     const responseObject = await response.json();
     console.log(
       " * * * * Ranked " +
-        this.state.selectedMode +
+        this.state.selectedMode.name +
         " received from db * * * * ",
       responseObject
     );
@@ -94,7 +94,7 @@ export default class App extends React.Component {
     const payload = {
       startDate: this.state.startDate,
       endDate: this.state.endDate,
-      selectedMode: this.state.selectedMode,
+      selectedMode: this.state.selectedMode.type,
       selectedWardOrMonitor: this.state.selectedWardOrMonitor,
     };
 

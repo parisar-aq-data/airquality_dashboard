@@ -218,7 +218,6 @@ export default function ReactMapTool(props) {
         <PanCityView features={features} />
       ) : (
         <MonitorView
-          selectedMode={props.selectedMode}
           wardsAndMonitors={props.monitors}
           selectedWardOrMonitor={props.selectedWardOrMonitor}
         />
@@ -231,7 +230,9 @@ export default function ReactMapTool(props) {
       <LayersControl position="bottomright">
         <LayersControl.Overlay
           checked={
-            props.selectedMode === "IUDX" && !props.panCityView ? true : false
+            props.selectedMode.type === "IUDX" && !props.panCityView
+              ? true
+              : false
           }
           name="IUDX Monitors"
         >
@@ -239,7 +240,9 @@ export default function ReactMapTool(props) {
         </LayersControl.Overlay>
         <LayersControl.Overlay
           checked={
-            props.selectedMode === "SAFAR" && !props.panCityView ? true : false
+            props.selectedMode.type === "SAFAR" && !props.panCityView
+              ? true
+              : false
           }
           name="Safar Monitors"
         >
