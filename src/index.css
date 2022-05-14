@@ -40,6 +40,7 @@ body {
 }
 
 .controlpanel {
+  /* font-size: small; */
   /* background-color: aqua; */
   flex: 0.1;
   display: flex;
@@ -56,7 +57,7 @@ body {
   flex: 0.9;
   /* parent properties*/
   display: flex;
-  justify-content: start;
+  justify-content: space-evenly;
 }
 
 .controlPanelSection2 {
@@ -71,8 +72,9 @@ body {
 .panCityControl {
   /* background-color: cyan; */
   display: flex;
-  flex: 1;
-  align-items: center;
+  flex: 0.9;
+  /* align-items: center; */
+  justify-content: space-evenly;
 }
 input {
   border: none;
@@ -85,8 +87,13 @@ input {
 
 .cp-section1items {
   margin-right: 5px;
-  flex: 0.5;
+  /* flex: 0.5; */
 }
+
+.datasource-select {
+  flex: 0.8;
+}
+
 .cp-section2items {
   margin-right: 5px;
 }

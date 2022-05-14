@@ -6,6 +6,7 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+const dataSources = ["Satellite Based", "Smart City", "SAFAR", "MPCB"];
 
 export default class ControlPanel extends React.Component {
   unitSelectRef = null;
@@ -101,7 +102,7 @@ export default class ControlPanel extends React.Component {
         (+1 * this.state.startDate.getTimezoneOffset()) / 60
       );
     }
-    const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
+    // const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
 
     //TESTING
     // let wnm = this.state.wardsAndMonitors;
@@ -125,12 +126,13 @@ export default class ControlPanel extends React.Component {
   }
 
   render() {
-    const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
+    // const dataSources = ["WARD", "IUDX", "SAFAR", "MPCB"];
     const buttons = (
       <>
         {dataSources.map((buttonLabel, i) => (
           <Button
             key={i}
+            style={{ fontSize: "12px" }}
             value={buttonLabel}
             onClick={(event) => this.setSelectedMode(event, i)}
             active={i === this.state.selectedDataSourceId ? true : false}
@@ -154,7 +156,7 @@ export default class ControlPanel extends React.Component {
                   ref={(ref) => {
                     this.unitSelectRef = ref;
                   }}
-                  className="cp-section1items"
+                  className="cp-section1items datasource-select"
                   placeholder="Select a ward or monitor"
                   options={this.state.filteredMonitors}
                   onChange={this.setSelectedWardOrMonitor}
