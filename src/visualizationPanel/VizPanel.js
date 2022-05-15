@@ -3,7 +3,8 @@ import React from "react";
 import SVGContainer from "./SVGContainer.js";
 import ScatterplotTool from "./vizTools/ScatterplotTool.js";
 import ReactMapTool from "./vizTools/ReactMapTool.js";
-import BarchartToolHorizontal from "./vizTools/BarchartTool_Horizontal.js";
+import InfocardTool from "./vizTools/InfocardTool.js";
+import BarchartTool from "./vizTools/BarchartTool.js";
 import LinechartTool from "./vizTools/LinechartTool.js";
 import LinechartToolMonitorHistory from "./vizTools/LinechartToolMonitorHistory.js";
 
@@ -48,14 +49,38 @@ export default class VizPanel extends React.Component {
   }
 
   render() {
+    let units = 49;
+    let type = "WARD";
+
+    if (this.props.wardPolygons.data !== undefined) {
+      units = this.props.wardPolygons.data.filter(
+        (unit) =>
+          unit.type.toUpperCase() === this.props.selectedMode.type.toUpperCase()
+      );
+      type = this.props.selectedMode.type === "WARD" ? "ward" : "monitor";
+    }
+
     const ui = (
       <>
         <div className="text_n_map">
           <div className="textTool display-linebreak">
-            {"PM2.5 are microscopic particles of solid or liquid matter suspended in the air. The term aerosol commonly refers to the particulate/air mixture," +
-              "as opposed to the particulate matter alone.\n" +
-              "There are 41 wards in Pune that measure air pollution.\n" +
-              "Each ward may have one or more air polluation monitors."}
+            {"This dashboard reports PM 2.5 from various data sources available in Pune. " +
+              "The " +
+              this.props.selectedMode.name +
+              " data is collected by " +
+              units.length +
+              " " +
+              type +
+              "s all across Pune.\n"}
+            <span style={{ fontStyle: "italic" }}>
+              {" To know more, select your " +
+                type +
+                " from the dropdown above.\n"}
+            </span>
+            <br />
+            {
+              "PM 2.5, an air pollutant, is very harmful to our health. It not only enters our lungs, but can also enter our bloodstream and affect many of our vital organs like the heart, brain, kidney."
+            }
           </div>
           <div className="mapBaap">
             <ReactMapTool
@@ -68,16 +93,30 @@ export default class VizPanel extends React.Component {
           </div>
         </div>
         <div className="bar_n_line">
-          <SVGContainer>
-            <BarchartToolHorizontal
-              title={
-                "Top 3 " +
-                (this.props.selectedMode === "WARD" ? "wards" : "monitors") +
-                " showing the lowest to highest levels of pm2.5"
-              }
-              rankedWards={this.props.rankedWards}
-            ></BarchartToolHorizontal>
-          </SVGContainer>
+          {this.props.panCityView ? (
+            <SVGContainer>
+              <BarchartTool
+                title={
+                  "Top 3 " +
+                  (this.props.selectedMode === "WARD" ? "wards" : "monitors") +
+                  " showing the lowest to highest levels of pm2.5"
+                }
+                rankedWards={this.props.rankedWards}
+              ></BarchartTool>
+            </SVGContainer>
+          ) : (
+            <SVGContainer>
+              <InfocardTool
+                title={
+                  (this.props.selectedMode === "WARD" ? "Ward" : "Monitor") +
+                  " comparison"
+                }
+                selectedMode={this.props.selectedMode}
+                selectedWardOrMonitor={this.props.selectedWardOrMonitor}
+                rank={10}
+              />
+            </SVGContainer>
+          )}
 
           {this.props.panCityView ? (
             <SVGContainer>
@@ -92,7 +131,7 @@ export default class VizPanel extends React.Component {
               <LinechartToolMonitorHistory
                 title={
                   "PM2.5 history for " +
-                  this.props.selectedMode +
+                  this.props.selectedMode.type +
                   " " +
                   this.props.selectedWardOrMonitor
                 }
