@@ -7,7 +7,6 @@ body {
 }
 .parentdiv {
   height: 95%;
-  /* color: #606161; */
 }
 #root {
   height: 90%;
@@ -29,6 +28,10 @@ body {
   height: 30px;
   width: 80px;
   /* line-height: 30px; */
+}
+
+.websiteName {
+  color: #606161;
 }
 
 .content {
@@ -73,8 +76,9 @@ body {
   /* background-color: cyan; */
   display: flex;
   flex: 0.9;
-  /* align-items: center; */
+  align-items: center;
   justify-content: space-evenly;
+  color: #606161;
 }
 input {
   border: none;
@@ -115,24 +119,19 @@ input {
 
 .svgcontainer {
   /* background-color: powderblue; */
-  border: solid 1px#D2D2CF;
+  background-color: #f8f9f9;
+  /* border: solid 1px#D2D2CF; */
   margin: 5px;
+  padding-bottom: 10px;
   flex: 1;
   color: rgb(110, 106, 106);
+  font-size: 13px;
 }
 
-/* .map_tool {
-  margin: 5px;
-  /* border: solid 1px#D2D2CF; */
-/* grid-column-start: 1; */
-/* grid-column-end: span col2-end; */
-/* grid-row-start: 1;
-  grid-row-end: span row2-end; */
-/* border: solid 1px rgb(90, 169, 214); */
-
 .textTool {
-  border: solid 1px#D2D2CF;
+  /* border: solid 1px#D2D2CF; */
   color: #7c7c7c;
+  font-size: 14px;
   text-align: justify;
   /* background-color: burlywood; */
   overflow-y: auto;
@@ -148,7 +147,7 @@ input {
 
 /*flex box */
 .map_tool {
-  border: solid 1px#D2D2CF;
+  /* border: solid 1px#D2D2CF; */
   height: 100%;
   margin: 5px;
 }
@@ -177,8 +176,7 @@ input {
 }
 
 .textTool {
-  /* border: solid 1px#D2D2CF; */
-  /* background-color: rgb(218, 210, 200); */
+  background-color: #f8f9f9; /* subtle gray*/
   flex: 0.5;
   padding: 10px;
 }
@@ -215,4 +213,18 @@ input {
   float: left;
   margin-right: 8px;
   opacity: 0.7;
+}
+
+/*Barchart Xaxis*/
+.axis {
+  font: 10px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #7c7c7c; /* overall font*/
+  shape-rendering: crispEdges;
+}
+.x.axis path {
+  display: none;
 }

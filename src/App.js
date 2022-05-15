@@ -273,7 +273,8 @@ export default class App extends React.Component {
         <Navbar bg="light">
           <Container>
             <Navbar.Brand href="#home">
-              <img alt="" src={logo} className="logo" /> Air Quality Dashboard
+              <img alt="" src={logo} className="logo" />
+              <span className="websiteName">{"Air Quality Dashboard"}</span>
             </Navbar.Brand>
 
             <Nav className="justify-content-end">
