@@ -90,7 +90,10 @@ export default function LinechartToolMonitorHistory(props) {
     // Y scale
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => Number(d.monthly_average_pm25))])
+      .domain([
+        d3.min(data, (d) => Number(d.monthly_average_pm25)) - 2,
+        d3.max(data, (d) => Number(d.monthly_average_pm25)),
+      ])
       .range([svgHeight, 0]);
 
     //ViewBOX
