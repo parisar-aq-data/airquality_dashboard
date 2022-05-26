@@ -153,15 +153,14 @@ export default function LinechartTool(props) {
       .domain(d3.extent(dates))
       .nice()
       .range([0, svgWidth - margin.right]);
-
     // Y scale
     const y_scale = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => Number(d.monthly_average_pm25))])
-      .range([svgHeight, 0]);
+      .range([svgHeight, 20]);
 
     //ViewBOX
-    svgEl.attr("viewBox", "-10 0" + " " + svgWidth + " " + h);
+    svgEl.attr("viewBox", "-30 10" + " " + svgWidth + " " + h);
 
     if (svgHeight > 0) {
       /* X AXIS */

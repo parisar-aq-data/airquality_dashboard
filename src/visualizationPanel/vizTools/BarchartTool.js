@@ -20,7 +20,6 @@ export default function BarchartTool(props) {
 
   //REF: https://bl.ocks.org/guypursey/f47d8cd11a8ff24854305505dbbd8c07
   function wrap(text, width) {
-    console.log("calling wrap");
     text.each(function () {
       var text = d3.select(this),
         words = text.text().split(/\s+/).reverse(),
