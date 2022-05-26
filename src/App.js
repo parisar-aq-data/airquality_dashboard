@@ -20,6 +20,7 @@ export default class App extends React.Component {
       selectedWardOrMonitor: "",
       panCityView: true,
       wardOrMonitorHistory: [],
+      wardOrMonitorSummary: [],
       wardPolygons: [],
       rankedWards: [],
       startDate: new Date("2021-04-24"),
@@ -33,9 +34,10 @@ export default class App extends React.Component {
 
   updateDates = (e) => {
     // Fetching NEW data according to UPDATED DATES
-    // this.get_pm25Ranks();
+    this.get_pm25Ranks();
     if (this.state.selectedWardOrMonitor != "") {
-      // this.getWardOrMonitorHistory();
+      this.getWardOrMonitorHistory();
+      this.getWardOrMonitorSummary();
     }
   };
 
@@ -172,6 +174,55 @@ export default class App extends React.Component {
     });
   }
 
+  async getWardOrMonitorSummary() {
+    let message = "";
+
+    const payload = {
+      startDate: this.state.startDate.toISOString().split("T")[0], // getting a MYSQL date truncate issue if date not formatted this way
+      endDate: this.state.endDate.toISOString().split("T")[0],
+      selectedMode: this.state.selectedMode.type,
+      selectedWardOrMonitor: this.state.selectedWardOrMonitor,
+    };
+
+    // retrieving data
+    const url = "http://localhost:5600/API/wardOrMonitorSummary";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+    const response = await fetch(url, requestOptions);
+
+    //processing retrieved data
+    const responseObject = await response.json();
+    console.log(
+      " * * * * Summary for " +
+        this.state.selectedWardOrMonitor +
+        " received from db * * * * ",
+      responseObject
+    );
+
+    if (responseObject.status === "success") {
+      this.setState({
+        wardOrMonitorSummary: responseObject.data, // only 1 record is always returned
+      });
+    } else {
+      if (responseObject.message === "No data found in DB") {
+        message =
+          "Sorry! We do not have the data for the selected date ranges. Please try changing them.";
+      }
+
+      this.setState({
+        alert: {
+          alertMessage: message,
+          alertRaised: true,
+        },
+      });
+    }
+  }
+
   /*
    * FETCHING DATA FROM API
    * This is where all the api calls are made to get data from the server
@@ -194,6 +245,7 @@ export default class App extends React.Component {
       this.state.selectedWardOrMonitor !== ""
     ) {
       this.getWardOrMonitorHistory();
+      this.getWardOrMonitorSummary();
     }
   }
 
@@ -219,8 +271,6 @@ export default class App extends React.Component {
   };
 
   render() {
-    // console.log("calling render APP");
-
     const content = (
       <>
         {this.state.alert.alertRaised ? (
@@ -251,7 +301,7 @@ export default class App extends React.Component {
           setStartDate={(date) => this.setState({ startDate: date })}
           setEndDate={(date) => this.setState({ endDate: date })}
         />
-        {this.state.rankedWards.length < 1 ? (
+        {false ? (
           "Retrieving data . . ."
         ) : (
           <VizPanel
@@ -262,6 +312,7 @@ export default class App extends React.Component {
             selectedWardOrMonitor={this.state.selectedWardOrMonitor}
             rankedWards={this.state.rankedWards}
             wardOrMonitorHistory={this.state.wardOrMonitorHistory}
+            wardOrMonitorSummary={this.state.wardOrMonitorSummary}
             wardPolygons={this.state.wardPolygons}
           />
         )}
