@@ -49,7 +49,7 @@ export default class VizPanel extends React.Component {
   }
 
   render() {
-    let units = 49;
+    let units = [];
     let type = "WARD";
 
     if (this.props.wardPolygons.data !== undefined) {
@@ -79,7 +79,7 @@ export default class VizPanel extends React.Component {
             </span>
             <br />
             {
-              "PM 2.5, an air pollutant, is very harmful to our health. It not only enters our lungs, but can also enter our bloodstream and affect many of our vital organs like the heart, brain, kidney."
+              "PM 2.5 (particulate matter), an air pollutant, is very harmful to our health. It not only enters our lungs, but can also enter our bloodstream and affect many of our vital organs like the heart, brain and kidneys."
             }
           </div>
           <div className="mapBaap">
@@ -98,7 +98,9 @@ export default class VizPanel extends React.Component {
               <BarchartTool
                 title={
                   "Top 3 " +
-                  (this.props.selectedMode === "WARD" ? "wards" : "monitors") +
+                  (this.props.selectedMode.type === "WARD"
+                    ? "wards"
+                    : "monitors") +
                   " showing the lowest to highest levels of pm2.5"
                 }
                 rankedWards={this.props.rankedWards}
@@ -107,13 +109,10 @@ export default class VizPanel extends React.Component {
           ) : (
             <SVGContainer>
               <InfocardTool
-                title={
-                  (this.props.selectedMode === "WARD" ? "Ward" : "Monitor") +
-                  " comparison"
-                }
+                title={this.props.selectedWardOrMonitor}
                 selectedMode={this.props.selectedMode}
                 selectedWardOrMonitor={this.props.selectedWardOrMonitor}
-                rank={10}
+                wardOrMonitorSummary={this.props.wardOrMonitorSummary}
               />
             </SVGContainer>
           )}
