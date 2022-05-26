@@ -1,4 +1,5 @@
 import React from "react";
+import * as paths from "./../paths";
 
 import SVGContainer from "./SVGContainer.js";
 import ScatterplotTool from "./vizTools/ScatterplotTool.js";
@@ -24,7 +25,7 @@ export default class VizPanel extends React.Component {
 
   async getPollutantHistory() {
     // retrieving data
-    const url = "http://localhost:5600/API/pollutantHistory";
+    const url = paths.POLLUTANTHISTORY;
     const requestOptions = {
       method: "GET",
       headers: {

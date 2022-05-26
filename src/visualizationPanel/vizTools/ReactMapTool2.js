@@ -9,6 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import React from "react";
+import * as paths from "./../../paths";
 
 export default class ReactMapTool2 extends React.Component {
   constructor(props) {
@@ -150,7 +151,7 @@ export default class ReactMapTool2 extends React.Component {
 
   async getWardCentroids() {
     // retrieving data
-    const url = "http://localhost:5600/API/wardCentroids";
+    const url = paths.WARDCENTROIDS;
     const requestOptions = {
       method: "GET",
       headers: {

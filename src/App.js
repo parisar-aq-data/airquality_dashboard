@@ -5,6 +5,7 @@ import React from "react";
 
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import * as paths from "./paths";
 
 import VizPanel from "./visualizationPanel/VizPanel.js";
 import logo from "./assets/ParisarLogo.png";
@@ -52,7 +53,7 @@ export default class App extends React.Component {
     };
 
     // retrieving data
-    const url = "http://localhost:5600/API/rankedPm25Units";
+    const url = paths.RANKEDUNITS;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -101,7 +102,7 @@ export default class App extends React.Component {
     };
 
     // retrieving data
-    const url = "http://localhost:5600/API/getWardOrMonitorHistory";
+    const url = paths.WARDORMONITORHISTORY;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -151,7 +152,7 @@ export default class App extends React.Component {
       };
 
       // retrieving data
-      const url = "http://localhost:5600/API/wardPolygons";
+      const url = paths.WARDPOLYGONS;
       const requestOptions = {
         method: "POST",
         headers: {
@@ -185,7 +186,7 @@ export default class App extends React.Component {
     };
 
     // retrieving data
-    const url = "http://localhost:5600/API/wardOrMonitorSummary";
+    const url = paths.WARDORMONITORSUMMARY;
     const requestOptions = {
       method: "POST",
       headers: {

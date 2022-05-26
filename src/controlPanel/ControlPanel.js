@@ -1,4 +1,5 @@
 import React from "react";
+import * as paths from "./../paths";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, ButtonGroup } from "react-bootstrap";
@@ -38,7 +39,7 @@ export default class ControlPanel extends React.Component {
   /* Utility*/
   async getWardsAndMonitors() {
     // retrieving data
-    const url = "http://localhost:5600/API/wardsAndMonitors";
+    const url = paths.WARDSANDMONITORS;
     const requestOptions = {
       method: "GET",
       headers: {
