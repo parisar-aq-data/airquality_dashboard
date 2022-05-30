@@ -1,3 +1,4 @@
+// export const API = "https://server2.nikhilvj.co.in/airdata_api/API/";
 export const API = "http://localhost:5600/API/";
 
 export const RANKEDUNITS = API.concat("rankedPm25Units");
