@@ -152,7 +152,7 @@ export default function InfocardTool(props) {
         .data(summaryData) // **
         .join("text")
         .attr("dx", (d) =>
-          d.tag == "highest pollution"
+          d.tag === "highest pollution"
             ? x_scale(d.tag) + x_scale.bandwidth() / 2 - 52
             : x_scale(d.tag) + x_scale.bandwidth() / 2 - 40
         )
@@ -160,7 +160,7 @@ export default function InfocardTool(props) {
         .text((d) => d.metric)
         .attr("fill", "#606161")
         .style("font-size", (d) =>
-          d.tag == "highest pollution" ? "40px" : "50px"
+          d.tag === "highest pollution" ? "40px" : "50px"
         );
     }
   });

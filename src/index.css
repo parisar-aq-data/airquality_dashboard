@@ -32,10 +32,12 @@ body {
 
 .websiteName {
   color: #606161;
+  padding: 10px;
 }
 
 .content {
   display: flex;
+  flex: 1;
   flex-direction: column;
   height: 100%;
   /* margin: 10px; */
@@ -104,11 +106,11 @@ input {
 
 .vizpanel {
   /* background-color: pink; */
-  flex: 2;
+  /* flex: 2; */
   padding: 5px;
 
   /* parent properties for viztools*/
-  /* height: 100%; */
+  height: 95%;
 
   /*using grid*/
   display: grid;

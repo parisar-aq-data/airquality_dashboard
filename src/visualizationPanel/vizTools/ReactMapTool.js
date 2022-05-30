@@ -4,7 +4,6 @@ import {
   Polygon,
   LayerGroup,
   CircleMarker,
-  Popup,
   LayersControl,
   useMap,
   Tooltip,

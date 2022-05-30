@@ -2,7 +2,6 @@ import React from "react";
 import * as paths from "./../paths";
 
 import SVGContainer from "./SVGContainer.js";
-import ScatterplotTool from "./vizTools/ScatterplotTool.js";
 import ReactMapTool from "./vizTools/ReactMapTool.js";
 import InfocardTool from "./vizTools/InfocardTool.js";
 import BarchartTool from "./vizTools/BarchartTool.js";
