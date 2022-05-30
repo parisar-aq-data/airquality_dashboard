@@ -1,5 +1,5 @@
 /*
-Controls the side control panel and the viz Panel 
+Controls the side control panel and the viz Panel
 */
 import React from "react";
 
@@ -11,7 +11,10 @@ import VizPanel from "./visualizationPanel/VizPanel.js";
 import logo from "./assets/ParisarLogo.png";
 
 import { Nav, Navbar, Container, Alert } from "react-bootstrap";
+
 import ControlPanel from "./controlPanel/ControlPanel";
+import { Faq } from "./routes/Faq";
+import { Contact } from "./routes/Contact";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -36,7 +39,7 @@ export default class App extends React.Component {
   updateDates = (e) => {
     // Fetching NEW data according to UPDATED DATES
     this.get_pm25Ranks();
-    if (this.state.selectedWardOrMonitor != "") {
+    if (this.state.selectedWardOrMonitor !== "") {
       this.getWardOrMonitorHistory();
       this.getWardOrMonitorSummary();
     }
@@ -141,9 +144,8 @@ export default class App extends React.Component {
   }
 
   async getWardPolygons() {
-    let message = "";
     let wardPolygons = this.state.wardPolygons;
-    if (this.state.wardPolygons.length != 101) {
+    if (this.state.wardPolygons.length !== 101) {
       // TODO get this date from UI components
       let today = new Date("2021-06-06");
       const payload = {
@@ -270,7 +272,6 @@ export default class App extends React.Component {
       selectedWardOrMonitor: e.value,
     });
   };
-
   render() {
     const content = (
       <>
@@ -324,19 +325,16 @@ export default class App extends React.Component {
       <div className="parentdiv">
         <Navbar bg="light">
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand>
               <img alt="" src={logo} className="logo" />
               <span className="websiteName">{"Air Quality Dashboard"}</span>
             </Navbar.Brand>
-
             <Nav className="justify-content-end">
-              <Nav.Link href="#home">About</Nav.Link>
-              <Nav.Link href="#features">Contact Us</Nav.Link>
-              <Nav.Link href="#pricing">Analysis</Nav.Link>
+              <Faq />
+              <Contact />
             </Nav>
           </Container>
         </Navbar>
-
         <div className="content">{content}</div>
       </div>
     );
