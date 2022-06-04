@@ -58,6 +58,7 @@ export default function BarchartTool(props) {
     svgEl.selectAll("*").remove();
     const h = svgHeight + 20;
 
+    // X Scale for data
     const x_scale = d3
       .scaleBand()
       .domain(
@@ -68,11 +69,24 @@ export default function BarchartTool(props) {
       .range([0, svgWidth - margin.right])
       .padding(0.2);
 
+    // Y Scale for data
     const y_scale = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => Number(d.Average_pm25))])
-      // .domain([0, 13000])
-      .range([svgHeight, 20]);
+      .range([svgHeight, 4 * margin.top]);
+
+    // X Scale for LEGEND
+    // We use two colors here for Highest and lowest pollution
+    let legendInfo = [
+      { label: "Lowest", color: "#9ad8f5" },
+      { label: "Highest", color: "#FCC782" },
+    ];
+    let divisions = 4; // 1 more than the legend entries
+    let size_per_division = svgWidth / divisions;
+    const xLeg_Scale = d3
+      .scaleLinear()
+      .domain([0, Object.keys(legendInfo).length - 1])
+      .range([size_per_division, width - size_per_division]);
 
     //ViewBOX
     svgEl.attr("viewBox", "-30 10" + " " + svgWidth + " " + h);
@@ -80,6 +94,35 @@ export default function BarchartTool(props) {
     let xAxis = d3.axisBottom(x_scale);
 
     if (svgHeight > 0) {
+      let g_elem = svgEl.append("g");
+
+      //** LEGEND INFO  */
+      // g_elem
+      //   .attr("transform", "translate(0," + svgHeight + ")")
+      //   .selectAll("rect")
+      //   .data(legendInfo)
+      //   .join("rect")
+      //   .attr("x", (d, i) => xLeg_Scale(i))
+      //   .attr("y", 20 - svgHeight)
+      //   .attr("width", 36)
+      //   .attr("height", 18)
+
+      //   // .attr("r", (d) => 10)
+      //   .attr("fill", (d) => d.color);
+
+      g_elem
+        .attr("transform", "translate(0," + svgHeight + ")")
+        .selectAll("text")
+        .data(legendInfo)
+        .join("text")
+        .attr("x", (d, i) => xLeg_Scale(i))
+        .attr("y", 2 * margin.top - svgHeight)
+        .attr("dy", "0.5em")
+        .text((d) => d.label)
+        .attr("font-size", "18px")
+        .attr("font-weight", "bold")
+        .attr("fill", (d) => d.color);
+
       /* X axis */
       svgEl
         .append("g")
