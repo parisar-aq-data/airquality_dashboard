@@ -15,7 +15,7 @@ export default function BarchartTool(props) {
   };
 
   let data = props.rankedWards;
-  let xAxisLabel = "Average PM 2.5";
+  let yAxisLabel = "Average PM 2.5";
   //SORTING BY RANK
   data = data.sort((a, b) => a.best - b.best);
 
@@ -147,7 +147,7 @@ export default function BarchartTool(props) {
         .attr("dy", ".75em")
         .attr("fill", "#7c7c7c")
         .attr("transform", "rotate(-90)")
-        .text(xAxisLabel);
+        .text(yAxisLabel);
 
       /* BARS */
       svgEl
