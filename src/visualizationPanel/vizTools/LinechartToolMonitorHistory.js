@@ -28,6 +28,7 @@ export default function LinechartToolMonitorHistory(props) {
   ];
 
   let data = null;
+  let yAxisLabel = "Monthly Average PM 2.5";
 
   const dataPrep = () => {
     data = props.pollutantHistory;
@@ -97,7 +98,7 @@ export default function LinechartToolMonitorHistory(props) {
       .range([svgHeight, 0]);
 
     //ViewBOX
-    svgEl.attr("viewBox", "-10 -2" + " " + svgWidth + " " + h);
+    svgEl.attr("viewBox", "-30 10" + " " + svgWidth + " " + h);
 
     if (svgHeight > 0) {
       /* X AXIS */
@@ -107,6 +108,18 @@ export default function LinechartToolMonitorHistory(props) {
         .call(d3.axisBottom(xScale));
       /* Y AXIS */
       svgEl.append("g").call(d3.axisLeft(yScale));
+
+      /* Y Axis label */
+      svgEl
+        .append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "start")
+        .attr("x", -250) // TODO get rid of hard coded values
+        .attr("y", -4 * margin.top)
+        .attr("dy", ".75em")
+        .attr("fill", "#7c7c7c")
+        .attr("transform", "rotate(-90)")
+        .text(yAxisLabel);
 
       renderMonitorView(svgEl, xScale, yScale);
     }
