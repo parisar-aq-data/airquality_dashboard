@@ -26,6 +26,8 @@ export default function LinechartTool(props) {
   let data_21 = null;
   let data_22 = null;
 
+  let yAxisLabel = "Monthly Average PM 2.5";
+
   const dataPrep = () => {
     data = props.pollutantHistory;
 
@@ -171,6 +173,18 @@ export default function LinechartTool(props) {
 
       /* Y AXIS */
       svgEl.append("g").call(d3.axisLeft(y_scale));
+
+      /* Y Axis label */
+      svgEl
+        .append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "start")
+        .attr("x", -250) // TODO get rid of hard coded values
+        .attr("y", -4 * margin.top)
+        .attr("dy", ".75em")
+        .attr("fill", "#7c7c7c")
+        .attr("transform", "rotate(-90)")
+        .text(yAxisLabel);
 
       // Add the line
       svgEl

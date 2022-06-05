@@ -40,21 +40,33 @@ function Legend({}) {
   const map = useMap();
 
   const getColor = (d) => {
-    return d > 35
-      ? "#800026"
+    // return d > 35
+    //   ? "#800026"
+    //   : d > 30
+    //   ? "#BD0026"
+    //   : d > 25
+    //   ? "#E31A1C"
+    //   : d > 20
+    //   ? "#FEB24C"
+    //   : d > 15
+    //   ? "#FED976"
+    //   : d > 10
+    //   ? "#57C7DB"
+    //   : d > 5
+    //   ? "#90D6E2"
+    //   : "#CAECF1";
+    if (!d) return "#ededed";
+    return d > 250
+      ? "#810100"
+      : d > 120
+      ? "#c41206"
+      : d > 90
+      ? "#f58f09"
+      : d > 60
+      ? "#CCA88A"
       : d > 30
-      ? "#BD0026"
-      : d > 25
-      ? "#E31A1C"
-      : d > 20
-      ? "#FEB24C"
-      : d > 15
-      ? "#FED976"
-      : d > 10
-      ? "#57C7DB"
-      : d > 5
-      ? "#90D6E2"
-      : "#CAECF1";
+      ? "#1E5E64"
+      : "#50C3CD";
   };
 
   useEffect(() => {
@@ -63,7 +75,16 @@ function Legend({}) {
 
       legend.onAdd = () => {
         const div = L.DomUtil.create("div", "info legend");
-        const grades = [0, 5, 10, 15, 20, 25, 30, 35];
+        const grades = ["NA", 0, 30, 60, 90, 120, 250];
+        const gradeNames = [
+          "Not Available",
+          "Good",
+          "Satisfactory",
+          "Moderate",
+          "Poor",
+          "Very Poor",
+          "Severe",
+        ];
         let labels = [];
         let from;
         let to;
@@ -73,13 +94,26 @@ function Legend({}) {
           from = grades[i];
           to = grades[i + 1];
 
-          labels.push(
-            '<i style="background:' +
-              getColor(from + 1) +
-              '"></i> ' +
-              from +
-              (to ? "&ndash;" + to : "+")
-          );
+          if (grades[i] == "NA") {
+            labels.push(
+              '<i style="background:' +
+                getColor(null) +
+                '"></i> ' +
+                from +
+                " : &nbsp;&nbsp;" +
+                gradeNames[i]
+            );
+          } else {
+            labels.push(
+              '<i style="background:' +
+                getColor(from + 1) +
+                '"></i> ' +
+                from +
+                (to ? "&ndash;" + to : "+") +
+                "&nbsp;&nbsp;" +
+                gradeNames[i]
+            );
+          }
         }
         div.innerHTML = labels.join("<br>");
         return div;
@@ -111,33 +145,18 @@ export default function ReactMapTool(props) {
     }
 
     function colorMapper(d) {
-      if (!d) return "#9c9c9c";
-      // return d > 30
-      //   ? "#994C01"
-      //   : d > 25
-      //   ? "#C89866"
-      //   : d > 23
-      //   ? "#C9E3E7"
-      //   : d > 20
-      //   ? "#AAD9E6"
-      //   : d > 13
-      //   ? "#80C6E6"
-      //   : "#80efff";
-      return d > 35
-        ? "#800026"
+      if (!d) return "#ededed";
+      return d > 250
+        ? "#810100"
+        : d > 120
+        ? "#c41206"
+        : d > 90
+        ? "#f58f09"
+        : d > 60
+        ? "#CCA88A"
         : d > 30
-        ? "#BD0026"
-        : d > 25
-        ? "#E31A1C"
-        : d > 20
-        ? "#FEB24C"
-        : d > 15
-        ? "#FED976"
-        : d > 10
-        ? "#57C7DB"
-        : d > 5
-        ? "#90D6E2"
-        : "#CAECF1";
+        ? "#1E5E64"
+        : "#50C3CD";
     }
 
     features.forEach((feat, index) => {
@@ -147,7 +166,7 @@ export default function ReactMapTool(props) {
           pathOptions={{
             color: "#777",
             fillColor: colorMapper(feat.properties.average_daily_pm25),
-            fillOpacity: 0.7,
+            fillOpacity: 0.5,
           }}
           positions={feat.geometry.coordinates[0]}
         >
