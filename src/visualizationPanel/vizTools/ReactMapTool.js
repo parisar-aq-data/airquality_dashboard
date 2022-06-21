@@ -275,7 +275,7 @@ export default function ReactMapTool(props) {
               ? true
               : false
           }
-          name="IUDX Monitors"
+          name="Smart City Monitors"
         >
           <LayerGroup>{iudxMarkers}</LayerGroup>
         </LayersControl.Overlay>
