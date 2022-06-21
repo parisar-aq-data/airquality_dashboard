@@ -37,7 +37,7 @@ export default function InfocardTool(props) {
       {
         index: 2,
         metric: record.count_exceeds_threshold,
-        tag: "number of days exceeding threshold of 20 PM2.5",
+        tag: "number of days exceeding threshold of 30 PM2.5",
       },
     ];
   }
