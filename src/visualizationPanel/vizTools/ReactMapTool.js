@@ -270,31 +270,19 @@ export default function ReactMapTool(props) {
       {polygons}
       <LayersControl position="bottomright">
         <LayersControl.Overlay
-          checked={
-            props.selectedMode.type === "IUDX" && !props.panCityView
-              ? true
-              : false
-          }
+          checked={props.selectedMode.type === "IUDX" ? true : false}
           name="Smart City Monitors"
         >
           <LayerGroup>{iudxMarkers}</LayerGroup>
         </LayersControl.Overlay>
         <LayersControl.Overlay
-          checked={
-            props.selectedMode.type === "SAFAR" && !props.panCityView
-              ? true
-              : false
-          }
+          checked={props.selectedMode.type === "SAFAR" ? true : false}
           name="Safar Monitors"
         >
           <LayerGroup>{safarMarkers}</LayerGroup>
         </LayersControl.Overlay>
         <LayersControl.Overlay
-          checked={
-            props.selectedMode.type === "MPCB" && !props.panCityView
-              ? true
-              : false
-          }
+          checked={props.selectedMode.type === "MPCB" ? true : false}
           name="MPCB Monitors"
         >
           <LayerGroup>{mpcbMarkers}</LayerGroup>
