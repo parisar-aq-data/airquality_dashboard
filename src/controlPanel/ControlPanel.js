@@ -163,6 +163,7 @@ export default class ControlPanel extends React.Component {
                     this.unitSelectRef = ref;
                   }}
                   className="cp-section1items datasource-select"
+                  isSearchable={true}
                   placeholder="Select a ward or monitor"
                   options={this.state.filteredMonitors}
                   onChange={this.setSelectedWardOrMonitor}
@@ -186,14 +187,13 @@ export default class ControlPanel extends React.Component {
                 </div>
               </div>
             )}
-
-            <Select
+            {/* <Select
               ref={(ref) => {
                 this.pollutantSelectRef = ref;
               }}
               className="cp-section1items"
               placeholder="Select a pollutant"
-            />
+            /> */}
           </div>
 
           <div className="controlPanelSection2">
