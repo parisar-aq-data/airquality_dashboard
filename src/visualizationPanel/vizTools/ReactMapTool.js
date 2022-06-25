@@ -94,7 +94,7 @@ function Legend({}) {
           from = grades[i];
           to = grades[i + 1];
 
-          if (grades[i] == "NA") {
+          if (grades[i] === "NA") {
             labels.push(
               '<i style="background:' +
                 getColor(null) +
