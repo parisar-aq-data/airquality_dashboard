@@ -172,7 +172,7 @@ export default class ControlPanel extends React.Component {
             ) : (
               <div className="panCityControl">
                 <Button variant="link" onClick={this.props.handlePanCityView}>
-                  PUNE
+                  Back to Pune City
                 </Button>
                 <div>
                   {/* {"Selected "}
@@ -180,8 +180,8 @@ export default class ControlPanel extends React.Component {
                     ? "ward : "
                     : dataSources[this.state.selectedDataSourceId] +
                       " monitor : "} */}
-                  {"/ " +
-                    dataSources[this.state.selectedDataSourceId].type +
+                  &emsp; &emsp;&emsp; &emsp;
+                  {dataSources[this.state.selectedDataSourceId].type +
                     "  : " +
                     this.props.selectedWardOrMonitor}
                 </div>
