@@ -21,7 +21,6 @@ export const Faq = (props) => {
 
   useEffect(() => {
     if (!faqs) {
-      console.log("calling faqs");
       getFaqs();
     }
   });
@@ -35,9 +34,11 @@ export const Faq = (props) => {
         (k) => k.includes("bullet") && f[k] !== ""
       );
       faqComponents.push(
-        <div>
+        <div key={i}>
           <h4 key={i}>{f.question}</h4>
-          <p align="justify">{f.answer}</p>
+          <p key={i} align="justify">
+            {f.answer}
+          </p>
           <ul>
             {bullets.map((b, ind) => (
               <li key={ind} align="justify">
