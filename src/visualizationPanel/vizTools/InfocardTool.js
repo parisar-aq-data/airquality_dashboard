@@ -42,7 +42,7 @@ export default function InfocardTool(props) {
     ];
   }
 
-  console.log("SUMMARY RECORD", summaryData);
+  // console.log("SUMMARY RECORD", summaryData);
 
   // const data = [
   //   { index: 0, metric: 15, tag: "days of missing data" },

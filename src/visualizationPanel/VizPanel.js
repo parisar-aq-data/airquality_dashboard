@@ -23,20 +23,29 @@ export default class VizPanel extends React.Component {
   }
 
   async getPollutantHistory() {
+    let message = "";
+
+    const payload = {
+      selectedMode: this.props.selectedMode.type,
+    };
+
     // retrieving data
     const url = paths.POLLUTANTHISTORY;
     const requestOptions = {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: null,
+      body: JSON.stringify(payload),
     };
     const response = await fetch(url, requestOptions);
 
     //processing retrieved data
     const poll_history = await response.json();
-    console.log(" * * * * POLLUTANT HISTORY * * * * ", poll_history);
+    console.log(
+      " * * * * POLLUTANT HISTORY " + this.props.selectedMode + "* * * * ",
+      poll_history
+    );
 
     this.setState({
       pollutantHistory: poll_history.data,
@@ -119,11 +128,17 @@ export default class VizPanel extends React.Component {
 
           {this.props.panCityView ? (
             <SVGContainer>
-              <LinechartTool
-                title={"PM2.5 for PAN CITY VIEW"}
+              <LinechartToolMonitorHistory
+                title={
+                  "PM2.5 across all " +
+                  (this.props.selectedMode.type == "WARD"
+                    ? "wards"
+                    : "monitors") +
+                  " in Pune"
+                }
                 pollutantHistory={this.state.pollutantHistory}
                 panCityView={this.props.panCityView}
-              ></LinechartTool>
+              ></LinechartToolMonitorHistory>
             </SVGContainer>
           ) : (
             <SVGContainer>

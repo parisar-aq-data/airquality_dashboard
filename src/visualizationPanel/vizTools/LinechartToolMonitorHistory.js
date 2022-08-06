@@ -14,6 +14,20 @@ export default function LinechartToolMonitorHistory(props) {
     bottom: 10,
     left: 100,
   };
+  const monthOrder = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
 
   // https://personal.sron.nl/~pault/
   // Safe for color blindness as well
@@ -37,11 +51,15 @@ export default function LinechartToolMonitorHistory(props) {
 
   const renderMonitorView = (svgEl, xScale, yScale) => {
     const uniqueYears = [...new Set(d3.map(data, (d, i) => d.Year))];
+
     for (let yr = 0; yr < uniqueYears.length; yr++) {
+      //filter all records belonging to a year
       let data_yr = data.filter((d) => d.Year === uniqueYears[yr]);
 
       //SORTING
       data_yr = data_yr.sort((a, b) => a.month_number - b.month_number);
+      // if (defined === undefined) defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
+      // const D = d3.map(data, defined);
 
       svgEl
         .append("path")
@@ -53,6 +71,7 @@ export default function LinechartToolMonitorHistory(props) {
           "d",
           d3
             .line()
+            // .defined((d) => D[d])
             .x((d) => xScale(d.Month) + xScale.bandwidth() / 2)
             .y((d) => yScale(Number(d.monthly_average_pm25)))
         );
@@ -63,7 +82,9 @@ export default function LinechartToolMonitorHistory(props) {
         .data(data_yr)
         .enter()
         .append("circle")
-        .attr("fill", colorPalette[yr])
+        .attr("fill", (d) =>
+          d.monthly_average_pm25 != "" ? colorPalette[yr] : "white"
+        )
         .attr("stroke", colorPalette[yr])
         .attr("stroke-width", 1)
         .attr("r", 3)
@@ -78,6 +99,7 @@ export default function LinechartToolMonitorHistory(props) {
     }
   };
 
+  //CHART
   const renderLegend = (svgEl) => {
     // X Scale for LEGEND
     let divisions = legendInfo.length + 1; // 1 more than the legend entries
@@ -110,7 +132,8 @@ export default function LinechartToolMonitorHistory(props) {
     svgEl.selectAll("*").remove();
     const h = svgHeight + 20;
 
-    const X = d3.map(data, (d, i) => d.Month);
+    // const X = d3.map(data, (d, i) => d.Month);
+    const X = d3.map(monthOrder, (d, i) => d);
 
     // X scale
     const xScale = d3.scaleBand(new d3.InternSet(X), [
