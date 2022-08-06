@@ -32,7 +32,7 @@ export default function InfocardTool(props) {
         index: 1,
         metric:
           record.pollution_rank.toString() + "/" + record.num_units.toString(),
-        tag: "highest pollution",
+        tag: "Pollution Rank",
       },
       {
         index: 2,
