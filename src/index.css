@@ -147,6 +147,18 @@ input {
   align-items: center;
 }
 
+/*special case for Pancity LineChartTool showing Pune's pollutant history*/
+.vizTitleLineChartPancity {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.titleNote {
+  font-size: 9px;
+}
+/*special case*/
+
 /*flex box */
 .map_tool {
   /* border: solid 1px#D2D2CF; */

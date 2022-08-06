@@ -42,7 +42,7 @@ export default function LinechartToolMonitorHistory(props) {
   ];
 
   let data = null;
-  let yAxisLabel = "Monthly Average PM 2.5";
+  let yAxisLabel = "";
   let legendInfo = []; // will contain one object per legend entry
 
   const dataPrep = () => {
@@ -127,13 +127,19 @@ export default function LinechartToolMonitorHistory(props) {
 
   useEffect(() => {
     dataPrep();
+    yAxisLabel =
+      props.selectedMode.type == "MPCB"
+        ? "Monthly Average RSPM"
+        : "Monthly Average PM 2.5";
 
     const svgEl = d3.select(svgRef.current);
     svgEl.selectAll("*").remove();
     const h = svgHeight + 20;
 
     // const X = d3.map(data, (d, i) => d.Month);
-    const X = d3.map(monthOrder, (d, i) => d);
+    const X = props.panCityView
+      ? d3.map(monthOrder, (d, i) => d)
+      : d3.map(data, (d, i) => d.Month);
 
     // X scale
     const xScale = d3.scaleBand(new d3.InternSet(X), [
@@ -181,7 +187,20 @@ export default function LinechartToolMonitorHistory(props) {
 
   return (
     <div>
-      <div className="vizTitle">{props.title}</div>
+      <div
+        className={props.panCityView ? "vizTitleLineChartPancity" : "vizTitle"}
+      >
+        {props.title}
+        {props.panCityView ? (
+          <span className="titleNote">
+            &emsp; &emsp;
+            {
+              "(*This chart is independent of the date range above. Hollow circles = missing data.)"
+            }
+          </span>
+        ) : null}
+      </div>
+
       <svg width={width} height={height} ref={svgRef}></svg>
     </div>
   );
