@@ -23,6 +23,7 @@ export default class App extends React.Component {
       selectedMode: { name: "Satellite Based", type: "WARD" },
       selectedWardOrMonitor: "",
       panCityView: true,
+      pollutantHistory: [],
       wardOrMonitorHistory: [],
       wardOrMonitorSummary: [],
       wardPolygons: [],
@@ -92,6 +93,37 @@ export default class App extends React.Component {
         },
       });
     }
+  }
+
+  async getPollutantHistory() {
+    let message = "";
+
+    const payload = {
+      selectedMode: this.state.selectedMode.type,
+    };
+
+    // retrieving data
+    const url = paths.POLLUTANTHISTORY;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+    const response = await fetch(url, requestOptions);
+
+    //processing retrieved data
+    const poll_history = await response.json();
+    console.log(
+      " * * * * POLLUTANT HISTORY " + this.state.selectedMode.type + "* * * * ",
+      poll_history
+    );
+
+    this.setState({
+      pollutantHistory: poll_history.data,
+      loading: false,
+    });
   }
 
   async getWardOrMonitorHistory() {
@@ -235,6 +267,8 @@ export default class App extends React.Component {
     this.get_pm25Ranks();
     // MAPTOOL
     this.getWardPolygons();
+    // LINECHARTTOOL
+    this.getPollutantHistory();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -242,6 +276,7 @@ export default class App extends React.Component {
     // Fetching NEW data according to UPDATED SELECTED MODE
     if (this.state.selectedMode !== prevState.selectedMode) {
       this.get_pm25Ranks();
+      this.getPollutantHistory();
     }
     if (
       this.state.selectedWardOrMonitor !== prevState.selectedWardOrMonitor &&
@@ -313,6 +348,7 @@ export default class App extends React.Component {
             panCityView={this.state.panCityView}
             selectedWardOrMonitor={this.state.selectedWardOrMonitor}
             rankedWards={this.state.rankedWards}
+            pollutantHistory={this.state.pollutantHistory}
             wardOrMonitorHistory={this.state.wardOrMonitorHistory}
             wardOrMonitorSummary={this.state.wardOrMonitorSummary}
             wardPolygons={this.state.wardPolygons}

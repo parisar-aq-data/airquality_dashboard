@@ -14,6 +14,20 @@ export default function LinechartToolMonitorHistory(props) {
     bottom: 10,
     left: 100,
   };
+  const monthOrder = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
 
   // https://personal.sron.nl/~pault/
   // Safe for color blindness as well
@@ -28,7 +42,7 @@ export default function LinechartToolMonitorHistory(props) {
   ];
 
   let data = null;
-  let yAxisLabel = "Monthly Average PM 2.5";
+  let yAxisLabel = "";
   let legendInfo = []; // will contain one object per legend entry
 
   const dataPrep = () => {
@@ -37,11 +51,15 @@ export default function LinechartToolMonitorHistory(props) {
 
   const renderMonitorView = (svgEl, xScale, yScale) => {
     const uniqueYears = [...new Set(d3.map(data, (d, i) => d.Year))];
+
     for (let yr = 0; yr < uniqueYears.length; yr++) {
+      //filter all records belonging to a year
       let data_yr = data.filter((d) => d.Year === uniqueYears[yr]);
 
       //SORTING
       data_yr = data_yr.sort((a, b) => a.month_number - b.month_number);
+      // if (defined === undefined) defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
+      // const D = d3.map(data, defined);
 
       svgEl
         .append("path")
@@ -53,6 +71,7 @@ export default function LinechartToolMonitorHistory(props) {
           "d",
           d3
             .line()
+            // .defined((d) => D[d])
             .x((d) => xScale(d.Month) + xScale.bandwidth() / 2)
             .y((d) => yScale(Number(d.monthly_average_pm25)))
         );
@@ -63,7 +82,9 @@ export default function LinechartToolMonitorHistory(props) {
         .data(data_yr)
         .enter()
         .append("circle")
-        .attr("fill", colorPalette[yr])
+        .attr("fill", (d) =>
+          d.monthly_average_pm25 != "" ? colorPalette[yr] : "white"
+        )
         .attr("stroke", colorPalette[yr])
         .attr("stroke-width", 1)
         .attr("r", 3)
@@ -78,6 +99,7 @@ export default function LinechartToolMonitorHistory(props) {
     }
   };
 
+  //CHART
   const renderLegend = (svgEl) => {
     // X Scale for LEGEND
     let divisions = legendInfo.length + 1; // 1 more than the legend entries
@@ -105,12 +127,19 @@ export default function LinechartToolMonitorHistory(props) {
 
   useEffect(() => {
     dataPrep();
+    yAxisLabel =
+      props.selectedMode.type == "MPCB"
+        ? "Monthly Average RSPM"
+        : "Monthly Average PM 2.5";
 
     const svgEl = d3.select(svgRef.current);
     svgEl.selectAll("*").remove();
     const h = svgHeight + 20;
 
-    const X = d3.map(data, (d, i) => d.Month);
+    // const X = d3.map(data, (d, i) => d.Month);
+    const X = props.panCityView
+      ? d3.map(monthOrder, (d, i) => d)
+      : d3.map(data, (d, i) => d.Month);
 
     // X scale
     const xScale = d3.scaleBand(new d3.InternSet(X), [
@@ -158,7 +187,20 @@ export default function LinechartToolMonitorHistory(props) {
 
   return (
     <div>
-      <div className="vizTitle">{props.title}</div>
+      <div
+        className={props.panCityView ? "vizTitleLineChartPancity" : "vizTitle"}
+      >
+        {props.title}
+        {props.panCityView ? (
+          <span className="titleNote">
+            &emsp; &emsp;
+            {
+              "(*This chart is independent of the date range above. Hollow circles = missing data.)"
+            }
+          </span>
+        ) : null}
+      </div>
+
       <svg width={width} height={height} ref={svgRef}></svg>
     </div>
   );

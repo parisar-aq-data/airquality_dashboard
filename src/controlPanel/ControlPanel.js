@@ -163,6 +163,7 @@ export default class ControlPanel extends React.Component {
                     this.unitSelectRef = ref;
                   }}
                   className="cp-section1items datasource-select"
+                  isSearchable={true}
                   placeholder="Select a ward or monitor"
                   options={this.state.filteredMonitors}
                   onChange={this.setSelectedWardOrMonitor}
@@ -171,7 +172,7 @@ export default class ControlPanel extends React.Component {
             ) : (
               <div className="panCityControl">
                 <Button variant="link" onClick={this.props.handlePanCityView}>
-                  PUNE
+                  Back to Pune City
                 </Button>
                 <div>
                   {/* {"Selected "}
@@ -179,34 +180,34 @@ export default class ControlPanel extends React.Component {
                     ? "ward : "
                     : dataSources[this.state.selectedDataSourceId] +
                       " monitor : "} */}
-                  {"/ " +
-                    dataSources[this.state.selectedDataSourceId].type +
+                  &emsp; &emsp;&emsp; &emsp;
+                  {dataSources[this.state.selectedDataSourceId].type +
                     "  : " +
                     this.props.selectedWardOrMonitor}
                 </div>
               </div>
             )}
-
-            <Select
+            {/* <Select
               ref={(ref) => {
                 this.pollutantSelectRef = ref;
               }}
               className="cp-section1items"
               placeholder="Select a pollutant"
-            />
+            /> */}
           </div>
 
           <div className="controlPanelSection2">
             <DatePicker
               wrapperClassName="cp-section2items"
-              dateFormat="yyyy/MM/dd"
+              // dateFormat="yyyy/MM/dd"
+              dateFormat="dd/MM/yyyy"
               selected={this.props.startDate}
               onChange={(date) => this.setStartDate(date)}
             />
             <label className="cp-section2items"> - </label>
             <DatePicker
               wrapperClassName="cp-section2items"
-              dateFormat="yyyy/MM/dd"
+              dateFormat="dd/MM/yyyy"
               selected={this.props.endDate}
               onChange={(date) => this.setEndDate(date)}
             />

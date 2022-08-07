@@ -32,7 +32,7 @@ export default function InfocardTool(props) {
         index: 1,
         metric:
           record.pollution_rank.toString() + "/" + record.num_units.toString(),
-        tag: "highest pollution",
+        tag: "Pollution Rank",
       },
       {
         index: 2,
@@ -42,7 +42,7 @@ export default function InfocardTool(props) {
     ];
   }
 
-  console.log("SUMMARY RECORD", summaryData);
+  // console.log("SUMMARY RECORD", summaryData);
 
   // const data = [
   //   { index: 0, metric: 15, tag: "days of missing data" },

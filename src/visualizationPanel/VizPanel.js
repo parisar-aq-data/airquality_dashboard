@@ -18,35 +18,44 @@ export default class VizPanel extends React.Component {
     super(props);
 
     this.state = {
-      pollutantHistory: [],
+      // pollutantHistory: [],
     };
   }
 
-  async getPollutantHistory() {
-    // retrieving data
-    const url = paths.POLLUTANTHISTORY;
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: null,
-    };
-    const response = await fetch(url, requestOptions);
+  // async getPollutantHistory() {
+  //   let message = "";
 
-    //processing retrieved data
-    const poll_history = await response.json();
-    console.log(" * * * * POLLUTANT HISTORY * * * * ", poll_history);
+  //   const payload = {
+  //     selectedMode: this.props.selectedMode.type,
+  //   };
 
-    this.setState({
-      pollutantHistory: poll_history.data,
-      loading: false,
-    });
-  }
+  //   // retrieving data
+  //   const url = paths.POLLUTANTHISTORY;
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(payload),
+  //   };
+  //   const response = await fetch(url, requestOptions);
 
-  componentDidMount() {
-    this.getPollutantHistory();
-  }
+  //   //processing retrieved data
+  //   const poll_history = await response.json();
+  //   console.log(
+  //     " * * * * POLLUTANT HISTORY " + this.props.selectedMode + "* * * * ",
+  //     poll_history
+  //   );
+
+  //   this.setState({
+  //     pollutantHistory: poll_history.data,
+  //     loading: false,
+  //   });
+  // }
+
+  // componentDidMount() {
+  //   this.getPollutantHistory();
+  // }
 
   render() {
     let units = [];
@@ -119,11 +128,19 @@ export default class VizPanel extends React.Component {
 
           {this.props.panCityView ? (
             <SVGContainer>
-              <LinechartTool
-                title={"PM2.5 for PAN CITY VIEW"}
-                pollutantHistory={this.state.pollutantHistory}
+              <LinechartToolMonitorHistory
+                title={
+                  (this.props.selectedMode.type == "MPCB" ? "RSPM" : "PM2.5") +
+                  " across all " +
+                  (this.props.selectedMode.type == "WARD"
+                    ? "wards"
+                    : "monitors") +
+                  " in Pune"
+                }
+                pollutantHistory={this.props.pollutantHistory}
                 panCityView={this.props.panCityView}
-              ></LinechartTool>
+                selectedMode={this.props.selectedMode}
+              ></LinechartToolMonitorHistory>
             </SVGContainer>
           ) : (
             <SVGContainer>
@@ -136,6 +153,7 @@ export default class VizPanel extends React.Component {
                 }
                 pollutantHistory={this.props.wardOrMonitorHistory}
                 panCityView={this.props.panCityView}
+                selectedMode={this.props.selectedMode}
               ></LinechartToolMonitorHistory>
             </SVGContainer>
           )}
