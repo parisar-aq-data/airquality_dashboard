@@ -1,24 +1,25 @@
 {
   "files": {
-    "main.css": "/airquality_dashboard/static/css/main.71dac226.chunk.css",
-    "main.js": "/airquality_dashboard/static/js/main.4a4bfe8d.chunk.js",
-    "main.js.map": "/airquality_dashboard/static/js/main.4a4bfe8d.chunk.js.map",
+    "main.css": "/airquality_dashboard/static/css/main.6218e08f.chunk.css",
+    "main.js": "/airquality_dashboard/static/js/main.9c29fe3f.chunk.js",
+    "main.js.map": "/airquality_dashboard/static/js/main.9c29fe3f.chunk.js.map",
     "runtime-main.js": "/airquality_dashboard/static/js/runtime-main.4546375f.js",
     "runtime-main.js.map": "/airquality_dashboard/static/js/runtime-main.4546375f.js.map",
     "static/css/2.ea9c7e1b.chunk.css": "/airquality_dashboard/static/css/2.ea9c7e1b.chunk.css",
-    "static/js/2.1c0fe33b.chunk.js": "/airquality_dashboard/static/js/2.1c0fe33b.chunk.js",
-    "static/js/2.1c0fe33b.chunk.js.map": "/airquality_dashboard/static/js/2.1c0fe33b.chunk.js.map",
+    "static/js/2.bb8be813.chunk.js": "/airquality_dashboard/static/js/2.bb8be813.chunk.js",
+    "static/js/2.bb8be813.chunk.js.map": "/airquality_dashboard/static/js/2.bb8be813.chunk.js.map",
     "index.html": "/airquality_dashboard/index.html",
     "static/css/2.ea9c7e1b.chunk.css.map": "/airquality_dashboard/static/css/2.ea9c7e1b.chunk.css.map",
-    "static/css/main.71dac226.chunk.css.map": "/airquality_dashboard/static/css/main.71dac226.chunk.css.map",
-    "static/js/2.1c0fe33b.chunk.js.LICENSE.txt": "/airquality_dashboard/static/js/2.1c0fe33b.chunk.js.LICENSE.txt",
-    "static/media/ParisarLogo.a617d95d.png": "/airquality_dashboard/static/media/ParisarLogo.a617d95d.png"
+    "static/css/main.6218e08f.chunk.css.map": "/airquality_dashboard/static/css/main.6218e08f.chunk.css.map",
+    "static/js/2.bb8be813.chunk.js.LICENSE.txt": "/airquality_dashboard/static/js/2.bb8be813.chunk.js.LICENSE.txt",
+    "static/media/ParisarLogo.a617d95d.png": "/airquality_dashboard/static/media/ParisarLogo.a617d95d.png",
+    "static/media/faqs.0759e9e7.csv": "/airquality_dashboard/static/media/faqs.0759e9e7.csv"
   },
   "entrypoints": [
     "static/js/runtime-main.4546375f.js",
     "static/css/2.ea9c7e1b.chunk.css",
-    "static/js/2.1c0fe33b.chunk.js",
-    "static/css/main.71dac226.chunk.css",
-    "static/js/main.4a4bfe8d.chunk.js"
+    "static/js/2.bb8be813.chunk.js",
+    "static/css/main.6218e08f.chunk.css",
+    "static/js/main.9c29fe3f.chunk.js"
   ]
 }
