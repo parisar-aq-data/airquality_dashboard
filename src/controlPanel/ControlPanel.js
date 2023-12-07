@@ -9,7 +9,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const dataSources = [
   { name: "Satellite Based", type: "WARD" },
-  { name: "Smart City", type: "IUDX" },
+  // { name: "Smart City", type: "IUDX" },
   { name: "SAFAR", type: "SAFAR" },
   { name: "MPCB", type: "MPCB" },
 ];
