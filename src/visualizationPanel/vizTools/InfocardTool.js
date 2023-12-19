@@ -37,7 +37,7 @@ export default function InfocardTool(props) {
       {
         index: 2,
         metric: record.count_exceeds_threshold,
-        tag: "number of days exceeding threshold of 30 PM2.5",
+        tag: "number of days exceeding daily allowable NAAQS limit (60 ug/m3)",
       },
     ];
   }
@@ -167,8 +167,24 @@ export default function InfocardTool(props) {
 
   return (
     <div>
-      <div className="vizTitle">{props.title}</div>
-      <svg width={width} height={height} ref={svgRef}></svg>
+      
+      <h4 className="text-center">{props.title}</h4>
+      <div className="d-flex justify-content-center gap-5 align-items-start mt-5">
+      {summaryData.map((summary,index)=>{
+       return(
+        <div>
+          <div className="bg-primary d-flex justify-content-center align-items-center"
+               style={{height:"120px",width:"120px",borderRadius:"50%"}}>
+              <h1 className="text-white font-weight-bold">{summary.metric}</h1>
+          </div>
+          <h6 className="text-center mt-2" style={{width:"130px"}}>{summary.tag}</h6>  
+        </div>
+        
+       ); 
+      })}
+        </div>
+      
+      {/* <svg width={width} height={height} ref={svgRef}></svg> */}
     </div>
   );
 }
