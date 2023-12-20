@@ -89,7 +89,16 @@ export default function InfocardTool(props) {
     });
   }
 
+  function getDaysBetweenDates(startDate, endDate) {
+    return Math.round((new Date(endDate) - new Date(startDate)) / (1000 * 3600 * 24));
+  }
+  
+
+
   useEffect(() => {
+
+
+    console.log(props);
     const svgEl = d3.select(svgRef.current);
     svgEl.selectAll("*").remove();
     const h = svgHeight + 100;

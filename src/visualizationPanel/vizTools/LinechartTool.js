@@ -26,7 +26,7 @@ export default function LinechartTool(props) {
   let data_21 = null;
   let data_22 = null;
 
-  let yAxisLabel = "Monthly Average PM 2.5";
+  let yAxisLabel = "Monthly Average PM 2.5 (μg/m³)";
 
   const dataPrep = () => {
     data = props.pollutantHistory;

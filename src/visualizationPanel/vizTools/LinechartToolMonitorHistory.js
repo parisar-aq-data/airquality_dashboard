@@ -5,6 +5,7 @@ import React, { useEffect, useRef } from "react";
 export default function LinechartToolMonitorHistory(props) {
   const { width, height } = props;
   const svgRef = useRef(null);
+  const targetValue = 40;
 
   const svgWidth = width;
   const svgHeight = height;
@@ -47,6 +48,7 @@ export default function LinechartToolMonitorHistory(props) {
 
   const dataPrep = () => {
     data = props.pollutantHistory;
+    console.log(data);
   };
 
   const renderMonitorView = (svgEl, xScale, yScale) => {
@@ -130,7 +132,7 @@ export default function LinechartToolMonitorHistory(props) {
     yAxisLabel =
       props.selectedMode.type == "MPCB"
         ? "Monthly Average RSPM"
-        : "Monthly Average PM 2.5";
+        : "Monthly Average PM 2.5 (μg/m³)";
 
     const svgEl = d3.select(svgRef.current);
     svgEl.selectAll("*").remove();
@@ -151,8 +153,8 @@ export default function LinechartToolMonitorHistory(props) {
     const yScale = d3
       .scaleLinear()
       .domain([
-        d3.min(data, (d) => Number(d.monthly_average_pm25)) - 2,
-        d3.max(data, (d) => Number(d.monthly_average_pm25)),
+        d3.min(data, (d) => 0),
+        Math.max(d3.max(data, (d) => Number(d.monthly_average_pm25)), targetValue),
       ])
       .range([svgHeight, 4 * margin.top]);
 
@@ -173,12 +175,33 @@ export default function LinechartToolMonitorHistory(props) {
         .append("text")
         .attr("class", "y label")
         .attr("text-anchor", "start")
-        .attr("x", -250) // TODO get rid of hard coded values
-        .attr("y", -4 * margin.top)
+        .attr("x", -230) // TODO get rid of hard coded values
+        .attr("y", -5 * margin.top)
         .attr("dy", ".75em")
         .attr("fill", "#7c7c7c")
         .attr("transform", "rotate(-90)")
         .text(yAxisLabel);
+
+        svgEl
+        .append("line")
+        .attr("x1", 0)
+        .attr("y1", yScale(targetValue))
+        .attr("x2", svgWidth - margin.right)
+        .attr("y2", yScale(targetValue))
+        .attr("stroke", "red") // You can customize the line color
+        .attr("stroke-width", 1);
+
+        svgEl
+        .append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "start")
+        .attr("x", 10) // TODO get rid of hard coded values
+        .attr("y", 150 )
+        .attr("dy", ".75em")
+        .attr("fill", "red")
+        .attr("transform", "rotate(0)")
+        .text("NAAQS allowable limit (annual)");
+
 
       renderMonitorView(svgEl, xScale, yScale);
       renderLegend(svgEl);
