@@ -180,7 +180,7 @@ export default function LinechartTool(props) {
         .attr("class", "y label")
         .attr("text-anchor", "start")
         .attr("x", -250) // TODO get rid of hard coded values
-        .attr("y", -4 * margin.top)
+        .attr("y", -6 * margin.top)
         .attr("dy", ".75em")
         .attr("fill", "#7c7c7c")
         .attr("transform", "rotate(-90)")
@@ -194,7 +194,7 @@ export default function LinechartTool(props) {
         .attr("stroke-width", 2.5)
         .attr({
           x1: x_scale(d3.min(dates)),
-          y1: y_scale(35), //start of the line
+          y1: y_scale(0), //start of the line
           x2: x_scale(d3.max(dates)),
           y2: y_scale(35), //end of the line
         });

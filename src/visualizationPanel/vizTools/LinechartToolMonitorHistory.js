@@ -46,8 +46,13 @@ export default function LinechartToolMonitorHistory(props) {
   let yAxisLabel = "";
   let legendInfo = []; // will contain one object per legend entry
 
+  
+
   const dataPrep = () => {
-    data = props.pollutantHistory;
+   const unsorted= props.pollutantHistory;
+   data = unsorted.sort((a, b) =>{
+    return Number(a.Month_number) - Number(b.Month_number)
+   });
     console.log(data);
   };
 
@@ -176,7 +181,7 @@ export default function LinechartToolMonitorHistory(props) {
         .attr("class", "y label")
         .attr("text-anchor", "start")
         .attr("x", -230) // TODO get rid of hard coded values
-        .attr("y", -5 * margin.top)
+        .attr("y", -4 * margin.top)
         .attr("dy", ".75em")
         .attr("fill", "#7c7c7c")
         .attr("transform", "rotate(-90)")
