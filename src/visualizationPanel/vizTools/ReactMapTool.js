@@ -96,26 +96,27 @@ function Legend({}) {
 
           if (grades[i] === "NA") {
             labels.push(
-              '<i style="background:' +
-                getColor(null) +
-                '"></i> ' +
-                from +
-                " : &nbsp;&nbsp;" +
-                gradeNames[i]
-            );
+              `<div style="display: flex; justify-content: space-between; align-items: center;padding:1px">
+              <div>
+              <i style="background: ${getColor(from + 1)};"></i> 
+              ${from} ${to ? "&ndash;" + to : "+"} &nbsp;&nbsp;</div> 
+              <span style="margin-left: 10px;"> 
+              ${gradeNames[i]}
+              </span>
+              </div>
+            `);
           } else {
-            labels.push(
-              '<i style="background:' +
-                getColor(from + 1) +
-                '"></i> ' +
-                from +
-                (to ? "&ndash;" + to : "+") +
-                "&nbsp;&nbsp;" +
-                gradeNames[i]
-            );
+            labels.push(`<div style="display: flex; justify-content: space-between; align-items: center;padding:1px">
+           <div> <i style="background: ${getColor(from + 1)};"></i>
+           ${from} ${to ? "&ndash;" + to : "+"} &nbsp;&nbsp;</div> 
+              <span style="margin-left: 10px;">
+                ${gradeNames[i]}
+            </span>
+        </div>
+        `);
           }
         }
-        div.innerHTML = labels.join("<br>");
+        div.innerHTML = labels.join("");
         return div;
       };
 
@@ -269,12 +270,12 @@ export default function ReactMapTool(props) {
       />
       {polygons}
       <LayersControl position="bottomright">
-        <LayersControl.Overlay
+        {/* <LayersControl.Overlay
           checked={props.selectedMode.type === "IUDX" ? true : false}
           name="Smart City Monitors"
         >
           <LayerGroup>{iudxMarkers}</LayerGroup>
-        </LayersControl.Overlay>
+        </LayersControl.Overlay> */}
         <LayersControl.Overlay
           checked={props.selectedMode.type === "SAFAR" ? true : false}
           name="Safar Monitors"
