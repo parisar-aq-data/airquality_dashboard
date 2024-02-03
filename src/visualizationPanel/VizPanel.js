@@ -16,7 +16,6 @@ export default class VizPanel extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       // pollutantHistory: [],
     };
@@ -122,6 +121,8 @@ export default class VizPanel extends React.Component {
                 selectedMode={this.props.selectedMode}
                 selectedWardOrMonitor={this.props.selectedWardOrMonitor}
                 wardOrMonitorSummary={this.props.wardOrMonitorSummary}
+                startDate={this.props.startDate}
+                endDate={this.props.endDate}
               />
             </SVGContainer>
           )}

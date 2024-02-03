@@ -2,9 +2,9 @@ import * as d3 from "d3";
 import React, { useEffect, useRef } from "react";
 
 export default function InfocardTool(props) {
-  const { width, height } = props;
+  const { width, height,startDate,endDate } = props;
   const svgRef = useRef(null);
-
+  const daysCount=getDaysBetweenDates(startDate,endDate);
   const svgWidth = width;
   const num_metrics = 4;
   const size_per_division = svgWidth / num_metrics;
@@ -25,19 +25,27 @@ export default function InfocardTool(props) {
     summaryData = [
       {
         index: 0,
-        metric: record.num_missing_days,
-        tag: "days of missing data",
+        metric: daysCount,
+        tag: "Total No.of days",
+
       },
       {
         index: 1,
-        metric:
-          record.pollution_rank.toString() + "/" + record.num_units.toString(),
-        tag: "Pollution Rank",
+        metric: record.num_missing_days,
+        tag: "days of missing data",
+        percentage:Math.round((record.num_missing_days/daysCount)*100)
       },
       {
         index: 2,
+        metric:
+        record.pollution_rank.toString() + "/" + record.num_units.toString(),
+        tag: "Pollution Rank",
+      },
+      {
+        index: 3,
         metric: record.count_exceeds_threshold,
-        tag: "number of days exceeding daily allowable NAAQS limit (60 ug/m3)",
+        tag: "No.of days exceeding daily allowable NAAQS limit (60 ug/m3)",
+        percentage:Math.round((record.count_exceeds_threshold/daysCount)*100)
       },
     ];
   }
@@ -178,17 +186,18 @@ export default function InfocardTool(props) {
     <div>
       
       <h4 className="text-center">{props.title}</h4>
-      <div className="d-flex justify-content-center gap-5 align-items-start mt-5">
+      <div className="d-flex justify-content-center gap-2 align-items-start mt-5">
       {summaryData.map((summary,index)=>{
        return(
         <div>
-          <div className="bg-primary d-flex justify-content-center align-items-center"
+          <div className="bg-primary d-flex flex-column justify-content-center align-items-center"
                style={{height:"120px",width:"120px",borderRadius:"50%"}}>
-              <h1 className="text-white font-weight-bold">{summary.metric}</h1>
+              <h3 className="text-white font-weight-bold">{summary.metric}</h3>
+              {console.log(summary.percentage)}
+              {summary.percentage?(<h3 style={{height:"50px",width:"50px",fontSize:"20px"}} className="d-flex justify-content-center align-items-center text-white bg-info p-2 rounded-circle ">{summary.percentage}%</h3>):""}
           </div>
-          <h6 className="text-center mt-2" style={{width:"130px"}}>{summary.tag}</h6>  
+          <h6 className="text-center mt-2" style={{width:"130px",fontSize:"12px"}}>{summary.tag}</h6>  
         </div>
-        
        ); 
       })}
         </div>

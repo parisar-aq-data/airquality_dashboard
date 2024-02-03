@@ -246,7 +246,7 @@ export default function ReactMapTool(props) {
         >
           <Tooltip sticky>
             MPCB Monitor <br /> {mon.name} <br />
-            {"PM 2.5 :  "}
+            {"PM 10 :  "}
             {Number(parseFloat(mon.average_daily_pm25)).toFixed(2)}
           </Tooltip>
         </CircleMarker>

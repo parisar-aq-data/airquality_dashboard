@@ -28,7 +28,7 @@ export default class App extends React.Component {
       wardOrMonitorSummary: [],
       wardPolygons: [],
       rankedWards: [],
-      startDate: new Date("2021-04-24"),
+      startDate: new Date("2024-01-01"),
       endDate: new Date(),
       alert: {
         alertRaised: false,
