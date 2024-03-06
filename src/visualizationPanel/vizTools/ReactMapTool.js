@@ -11,6 +11,7 @@ import {
 import { useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import healthAdvisory from "../../assets/advisory.json";
 
 function MonitorView(props) {
   const map = useMap();
@@ -68,6 +69,8 @@ function Legend({}) {
       ? "#1E5E64"
       : "#50C3CD";
   };
+
+ 
 
   useEffect(() => {
     if (map) {
@@ -160,7 +163,20 @@ export default function ReactMapTool(props) {
         : "#50C3CD";
     }
 
+
+ 
+
     features.forEach((feat, index) => {
+
+      function getHealthyAdvisory(pm) {
+        for (const entry of healthAdvisory) {
+          if (pm >= entry["PM2.5"]["start"] && pm < entry["PM2.5"]["end"]) {
+            return entry["HealthRisk"];
+          }
+        }
+        return "Data not available for this PM2.5 value";
+      }
+
       polygons.push(
         <Polygon
           key={index}
@@ -176,7 +192,8 @@ export default function ReactMapTool(props) {
             {feat.properties.name} <br />
             {feat.properties.name_mr} <br />
             {"PM2.5 :  "}
-            {Number(parseFloat(feat.properties.average_daily_pm25)).toFixed(2)}
+            {Number(parseFloat(feat.properties.average_daily_pm25)).toFixed(2)}<br/>
+            {"Health Advisory : "+ getHealthyAdvisory(Number(parseFloat(feat.properties.average_daily_pm25)).toFixed(2)) }
           </Tooltip>
         </Polygon>
       );
@@ -253,6 +270,9 @@ export default function ReactMapTool(props) {
       );
     });
   }
+
+
+
 
   return (
     <MapContainer className="map_tool" scrollWheelZoom={false}>

@@ -1,0 +1,50 @@
+[
+    {
+        "PM2.5":{
+            "start":0,
+            "end":30
+        },
+        "HealthAdvisory": "Enjoy the day.",
+        "HealthRisk": "No risk at all."
+    },
+    {
+        "PM2.5":{
+            "start":30,
+            "end":60
+        }, 
+        "HealthAdvisory": "Enjoy the day",
+        "HealthRisk": "No risk."
+    },
+    {
+        "PM2.5":{
+            "start":60,
+            "end":90
+        }, 
+        "HealthAdvisory": "Very sensitive people should consider reducing longer/heavy exertion and heavy outdoor work",
+        "HealthRisk": "Minor health issues for sensitive people, no problem to the general public"
+    },
+    {
+        "PM2.5":{
+            "start":90,
+            "end":120
+        },
+        "HealthAdvisory": "People with heart or lung disease, older adults, and children should reduce longer or heavy exertion and outdoor activity",
+        "HealthRisk": "Elderly at risk. Healthy people may start to experience slight discomfort."
+    },
+    {
+        "PM2.5":{
+            "start":120,
+            "end":250
+        }, 
+        "HealthAdvisory": "Everyone should reduce heavy exertion. People with heart or lung disease, older adults, and children should avoid longer or heavy exertion and outdoor activity.",
+        "HealthRisk": "Triggers health alert. Everyone may experience health effects. Significant increase in respiratory problems."
+    },
+    {
+        "PM2.5":{
+            "start":250,
+            "end":100000
+        }, 
+        "HealthAdvisory": "Everyone should avoid any outdoor physical activity. People with heart or lung disease, older adults, and children do not exert at all and remain indoor.",
+        "HealthRisk": "Health warning of emergency conditions. Serious risk of respiratory effects even in the general public."
+    }
+]
